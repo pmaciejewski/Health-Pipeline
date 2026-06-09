@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.zip
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+*.tfplan
+plan.txt
+.env
