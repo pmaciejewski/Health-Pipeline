@@ -56,9 +56,9 @@ resource "aws_lambda_function" "mcp" {
 
   environment {
     variables = {
-      TABLE_NAME      = aws_dynamodb_table.data.name
-      UPLOAD_BUCKET   = aws_s3_bucket.uploads.bucket
-      AUTH_SECRET_ARN = aws_secretsmanager_secret.auth_token.arn
+      TABLE_NAME    = aws_dynamodb_table.data.name
+      UPLOAD_BUCKET = aws_s3_bucket.uploads.bucket
+      AUTH_TOKEN    = random_password.auth_token.result
     }
   }
 

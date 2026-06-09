@@ -1,17 +1,10 @@
 # Capability-URL token: Claude custom connectors cannot send custom auth
-# headers, so the MCP endpoint embeds this token as a path segment.
+# headers, so the MCP endpoint embeds this token as a path segment. It is
+# delivered to the Lambda as an env var (encrypted at rest); the value also
+# lives in Terraform state either way, so a secrets store would add cost
+# without adding confidentiality.
 # Rotate with: terraform apply -replace=random_password.auth_token
 resource "random_password" "auth_token" {
   length  = 48
   special = false # path-segment safe
-}
-
-resource "aws_secretsmanager_secret" "auth_token" {
-  name                    = "${var.project}-auth-token"
-  recovery_window_in_days = 0
-}
-
-resource "aws_secretsmanager_secret_version" "auth_token" {
-  secret_id     = aws_secretsmanager_secret.auth_token.id
-  secret_string = random_password.auth_token.result
 }

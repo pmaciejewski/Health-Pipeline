@@ -43,7 +43,7 @@ exposes the data to Claude on mobile.
 - `src/parser/` — S3-triggered Lambda: streaming XML parse + per-day aggregation
 - `src/mcp/` — API Gateway Lambda: minimal stateless MCP server + upload-URL route
 - `src/shared/` — DynamoDB access helpers
-- `terraform/` — all infrastructure (S3, DynamoDB, Lambdas, API GW, secrets, IAM)
+- `terraform/` — all infrastructure (S3, DynamoDB, Lambdas, API GW, IAM)
 - `.github/workflows/` — CI (test/validate), plan-on-PR, apply-on-main
 - `docs/` — [Claude connector setup](docs/claude-connector.md), [iOS Shortcut](docs/ios-shortcut.md)
 
@@ -76,5 +76,5 @@ Infra changes go through PRs: the plan is posted as a PR comment; merging to
   export, then revert.
 - **Token rotation**: `terraform apply -replace=random_password.auth_token`,
   then update the Claude connector URL and the Shortcut.
-- **Cost**: ~$0.50/month (Secrets Manager) — everything else sits in the
-  free tier at single-user volumes.
+- **Cost**: ~$0.15/month — S3 storage for transient uploads plus pennies of
+  Lambda/DynamoDB; everything else sits in the free tier at single-user volumes.

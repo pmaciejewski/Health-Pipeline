@@ -63,12 +63,6 @@ data "aws_iam_policy_document" "mcp" {
   }
 
   statement {
-    sid       = "ReadAuthToken"
-    actions   = ["secretsmanager:GetSecretValue"]
-    resources = [aws_secretsmanager_secret.auth_token.arn]
-  }
-
-  statement {
     sid       = "Logs"
     actions   = ["logs:CreateLogStream", "logs:PutLogEvents"]
     resources = ["${aws_cloudwatch_log_group.mcp.arn}:*"]

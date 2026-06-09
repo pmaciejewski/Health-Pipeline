@@ -31,8 +31,7 @@ const NOT_FOUND = resp(404, { message: "Not found" });
 
 export async function handler(event) {
   const token = event.pathParameters?.token;
-  const expected = await getExpectedToken();
-  if (!tokensMatch(token, expected)) return NOT_FOUND;
+  if (!tokensMatch(token, getExpectedToken())) return NOT_FOUND;
 
   if (event.routeKey === "GET /upload-url/{token}") {
     return resp(200, await createUploadUrl(ctx));
