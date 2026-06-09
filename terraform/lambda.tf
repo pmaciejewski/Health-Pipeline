@@ -33,9 +33,6 @@ resource "aws_lambda_function" "parser" {
   memory_size      = 1024
   timeout          = 900
 
-  # A parse run touches the whole table state; never run two in parallel.
-  reserved_concurrent_executions = 1
-
   environment {
     variables = {
       TABLE_NAME        = aws_dynamodb_table.data.name
