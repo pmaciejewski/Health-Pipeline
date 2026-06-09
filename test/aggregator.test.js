@@ -159,6 +159,37 @@ test("records before the cutoff are dropped", () => {
   assert.equal(rows[0].date, "2026-06-05");
 });
 
+test("body fat, BMI and lean mass keep the latest reading of the day", () => {
+  const agg = new Aggregator();
+  // Two body-fat readings; latest wins
+  agg.addRecord({ type: "HKQuantityTypeIdentifierBodyFatPercentage", startDate: "2026-06-08 08:00:00 +0100", endDate: "2026-06-08 08:00:00 +0100", value: "19.0" });
+  agg.addRecord({ type: "HKQuantityTypeIdentifierBodyFatPercentage", startDate: "2026-06-08 21:00:00 +0100", endDate: "2026-06-08 21:00:00 +0100", value: "18.5" });
+  agg.addRecord({ type: "HKQuantityTypeIdentifierBodyMassIndex",     startDate: "2026-06-08 08:01:00 +0100", endDate: "2026-06-08 08:01:00 +0100", value: "24.7" });
+  agg.addRecord({ type: "HKQuantityTypeIdentifierLeanBodyMass",      startDate: "2026-06-08 08:02:00 +0100", endDate: "2026-06-08 08:02:00 +0100", value: "67.2" });
+  const [row] = agg.finalize();
+  assert.equal(row.body_fat_pct,      18.5);
+  assert.equal(row.bmi,               24.7);
+  assert.equal(row.lean_body_mass_kg, 67.2);
+});
+
+test("body_fat_pct and bmi are rounded to 2 decimal places", () => {
+  const agg = new Aggregator();
+  agg.addRecord({ type: "HKQuantityTypeIdentifierBodyFatPercentage", startDate: "2026-06-08 08:00:00 +0100", endDate: "2026-06-08 08:00:00 +0100", value: "18.556" });
+  agg.addRecord({ type: "HKQuantityTypeIdentifierBodyMassIndex",     startDate: "2026-06-08 08:00:00 +0100", endDate: "2026-06-08 08:00:00 +0100", value: "24.749" });
+  const [row] = agg.finalize();
+  assert.equal(row.body_fat_pct, 18.56);
+  assert.equal(row.bmi,          24.75);
+});
+
+test("new body-weight fields are null when absent", () => {
+  const agg = new Aggregator();
+  agg.addRecord({ type: "HKQuantityTypeIdentifierRestingHeartRate", startDate: "2026-06-08 07:00:00 +0100", endDate: "2026-06-08 07:00:00 +0100", value: "54" });
+  const [row] = agg.finalize();
+  assert.equal(row.body_fat_pct,      null);
+  assert.equal(row.bmi,               null);
+  assert.equal(row.lean_body_mass_kg, null);
+});
+
 test("malformed records are counted as skipped, not thrown", () => {
   const agg = new Aggregator();
   agg.addRecord({

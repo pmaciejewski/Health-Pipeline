@@ -10,15 +10,11 @@ resource "aws_apigatewayv2_integration" "mcp" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "mcp" {
+# Single catch-all route — all routing (OAuth + MCP + upload) is handled in
+# the Lambda, which keeps the Terraform surface minimal.
+resource "aws_apigatewayv2_route" "default" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "ANY /mcp/{token}"
-  target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
-}
-
-resource "aws_apigatewayv2_route" "upload_url" {
-  api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /upload-url/{token}"
+  route_key = "$default"
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
@@ -27,7 +23,6 @@ resource "aws_apigatewayv2_stage" "default" {
   name        = "$default"
   auto_deploy = true
 
-  # Single-user API: low limits blunt brute-force probing and runaway cost.
   default_route_settings {
     throttling_rate_limit  = 10
     throttling_burst_limit = 20
