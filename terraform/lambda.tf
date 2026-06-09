@@ -33,9 +33,6 @@ resource "aws_lambda_function" "parser" {
   memory_size      = 1024
   timeout          = 900
 
-  # A parse run touches the whole table state; never run two in parallel.
-  reserved_concurrent_executions = 1
-
   environment {
     variables = {
       TABLE_NAME        = aws_dynamodb_table.data.name
@@ -59,9 +56,9 @@ resource "aws_lambda_function" "mcp" {
 
   environment {
     variables = {
-      TABLE_NAME      = aws_dynamodb_table.data.name
-      UPLOAD_BUCKET   = aws_s3_bucket.uploads.bucket
-      AUTH_SECRET_ARN = aws_secretsmanager_secret.auth_token.arn
+      TABLE_NAME    = aws_dynamodb_table.data.name
+      UPLOAD_BUCKET = aws_s3_bucket.uploads.bucket
+      AUTH_TOKEN    = random_password.auth_token.result
     }
   }
 

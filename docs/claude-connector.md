@@ -4,24 +4,26 @@ Requires a Claude plan with custom connector support (Pro/Max/Team).
 
 ## 1. Get your MCP URL
 
-After the first successful deploy:
+After the first successful deploy, from a checkout with state access:
 
 ```bash
-# API endpoint (also shown as a terraform output / in the deploy job log)
+cd terraform && terraform init && terraform output -raw mcp_url
+```
+
+Or without Terraform, read the token from the Lambda configuration:
+
+```bash
+# API endpoint
 aws apigatewayv2 get-apis \
   --query "Items[?Name=='health-pipeline-api'].ApiEndpoint" --output text
 
 # Auth token
-aws secretsmanager get-secret-value \
-  --secret-id health-pipeline-auth-token \
-  --query SecretString --output text
+aws lambda get-function-configuration \
+  --function-name health-pipeline-mcp \
+  --query 'Environment.Variables.AUTH_TOKEN' --output text
 ```
 
-Your MCP URL is:
-
-```
-<api-endpoint>/mcp/<token>
-```
+Your MCP URL is `<api-endpoint>/mcp/<token>`.
 
 ## 2. Add the connector
 
@@ -43,8 +45,9 @@ Your MCP URL is:
 The URL embeds the auth token, so treat the URL itself as a secret. To rotate:
 
 ```bash
-# in a checkout with terraform access, or via a one-line PR
+# in a checkout with terraform access
 terraform apply -replace=random_password.auth_token
 ```
 
+This regenerates the token and redeploys the Lambda env var in one step.
 Then update the connector URL in Claude and the iOS Shortcut.
