@@ -36,6 +36,15 @@ const STAGE_FIELD = {
 // Gap between sleep segments above which a new session starts.
 const SESSION_GAP_MS = 30 * 60000;
 
+// Maps HK type identifiers to the output field name for metrics that keep
+// the latest reading of the day.
+const LATEST_READING = {
+  HKQuantityTypeIdentifierBodyMass:          "body_mass_kg",
+  HKQuantityTypeIdentifierBodyFatPercentage: "body_fat_pct",
+  HKQuantityTypeIdentifierBodyMassIndex:     "bmi",
+  HKQuantityTypeIdentifierLeanBodyMass:      "lean_body_mass_kg",
+};
+
 export class Aggregator {
   constructor({ cutoffEpoch = -Infinity } = {}) {
     this.cutoffEpoch = cutoffEpoch;
@@ -55,6 +64,23 @@ export class Aggregator {
   }
 
   addRecord({ type, startDate, endDate, value }) {
+    // Latest-reading-of-day metrics (body mass, fat %, BMI, lean mass)
+    const latestField = LATEST_READING[type];
+    if (latestField) {
+      const t = parseAppleDate(startDate);
+      const v = Number(value);
+      if (!t || !Number.isFinite(v)) return void this.recordsSkipped++;
+      if (t.epoch < this.cutoffEpoch) return;
+      const d = this.#day(t.localDate);
+      const epochKey = `_${latestField}_epoch`;
+      if (d[epochKey] == null || t.epoch >= d[epochKey]) {
+        d[latestField] = v;
+        d[epochKey] = t.epoch;
+      }
+      this.recordsParsed++;
+      return;
+    }
+
     switch (type) {
       case "HKQuantityTypeIdentifierHeartRateVariabilitySDNN": {
         const t = parseAppleDate(startDate);
@@ -72,19 +98,6 @@ export class Aggregator {
         if (!t || !Number.isFinite(v)) return void this.recordsSkipped++;
         if (t.epoch < this.cutoffEpoch) return;
         this.#day(t.localDate).resting_hr_bpm = v;
-        this.recordsParsed++;
-        return;
-      }
-      case "HKQuantityTypeIdentifierBodyMass": {
-        const t = parseAppleDate(startDate);
-        const v = Number(value);
-        if (!t || !Number.isFinite(v)) return void this.recordsSkipped++;
-        if (t.epoch < this.cutoffEpoch) return;
-        const d = this.#day(t.localDate);
-        if (d._bodyMassEpoch == null || t.epoch >= d._bodyMassEpoch) {
-          d.body_mass_kg = v;
-          d._bodyMassEpoch = t.epoch;
-        }
         this.recordsParsed++;
         return;
       }
@@ -138,19 +151,23 @@ export class Aggregator {
       }
     }
 
+    const round2 = (v) => (v == null ? null : Math.round(v * 100) / 100);
     const round = (v) => (v == null ? null : Math.round(v));
     return [...this.days.entries()]
       .map(([date, d]) => ({
         date,
-        hrv_ms: d.hrv_ms ?? null,
-        resting_hr_bpm: d.resting_hr_bpm ?? null,
-        total_sleep_min: round(d.total_sleep_min),
-        deep_sleep_min: round(d.deep_sleep_min),
-        rem_sleep_min: round(d.rem_sleep_min),
-        core_sleep_min: round(d.core_sleep_min),
-        awake_min: round(d.awake_min),
-        sleep_sessions: d.sleep_sessions ?? null,
-        body_mass_kg: d.body_mass_kg ?? null,
+        hrv_ms:            d.hrv_ms ?? null,
+        resting_hr_bpm:    d.resting_hr_bpm ?? null,
+        total_sleep_min:   round(d.total_sleep_min),
+        deep_sleep_min:    round(d.deep_sleep_min),
+        rem_sleep_min:     round(d.rem_sleep_min),
+        core_sleep_min:    round(d.core_sleep_min),
+        awake_min:         round(d.awake_min),
+        sleep_sessions:    d.sleep_sessions ?? null,
+        body_mass_kg:      d.body_mass_kg ?? null,
+        body_fat_pct:      round2(d.body_fat_pct),
+        bmi:               round2(d.bmi),
+        lean_body_mass_kg: d.lean_body_mass_kg ?? null,
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
   }
