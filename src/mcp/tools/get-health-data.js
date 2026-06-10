@@ -16,9 +16,9 @@ function validDate(s) {
 export const getHealthData = {
   name: "get_health_data",
   description:
-    "Get daily health metrics (HRV, resting heart rate, sleep stages, body mass) " +
-    "from the Apple Health pipeline. Returns one row per calendar day. " +
-    "Missing metrics are null. Defaults to the last 30 days.",
+    "Get daily health metrics (HRV, resting heart rate, sleep stages, body mass, " +
+    "body fat %, BMI, lean body mass) from the Apple Health pipeline. " +
+    "Returns one row per calendar day. Missing metrics are null. Defaults to the last 30 days.",
   inputSchema: {
     type: "object",
     properties: {
