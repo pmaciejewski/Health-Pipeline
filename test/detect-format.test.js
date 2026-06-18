@@ -28,9 +28,12 @@ test("resolveFormat lets content override a misleading extension", () => {
   assert.equal(resolveFormat("uploads/export-x.json", buf("PK\x03\x04")), "zip");
 });
 
-test("resolveFormat falls back to the extension when content is unclear", () => {
+test("resolveFormat defaults to JSON when content is unclear", () => {
   assert.equal(resolveFormat("a.json", buf("")), "json");
   assert.equal(resolveFormat("a.xml", Buffer.alloc(0)), "xml");
   assert.equal(resolveFormat("a.zip", buf("garbage")), "zip");
-  assert.equal(resolveFormat("no-extension", buf("garbage")), "zip");
+  // Bare JSON to the XML sync URL: content is clearly JSON, so JSON it is.
+  assert.equal(resolveFormat("export.zip", buf('{"data":{"metrics":[]}}')), "json");
+  // No usable extension and unclear bytes -> default JSON.
+  assert.equal(resolveFormat("no-extension", buf("garbage")), "json");
 });
