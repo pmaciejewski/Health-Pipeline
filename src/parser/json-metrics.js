@@ -1,0 +1,165 @@
+// Parser for the "Health Auto Export" iOS app JSON feed.
+//
+// Shape: { "data": { "metrics": [ { name, units, data: [ { date, qty, source, ... } ] } ] } }
+//
+// Unlike Apple's raw export.xml (one node per sample), this feed is already
+// aggregated to a single point per metric per calendar day. We map each point
+// straight onto the per-day row shape the rest of the pipeline uses, so JSON and
+// XML uploads land in the same DynamoDB rows and are served by the same MCP tool.
+
+import { parseAppleDate } from "./aggregator.js";
+
+function round(v, digits = 0) {
+  if (v == null || !Number.isFinite(v)) return null;
+  const f = 10 ** digits;
+  return Math.round(v * f) / f;
+}
+
+// Plain single-quantity daily metrics: JSON metric name -> output field + rounding.
+// Field names carry units to stay self-describing alongside the XML-derived rows.
+const QTY_METRICS = {
+  heart_rate_variability:            { field: "hrv_ms",                     round: 2 },
+  resting_heart_rate:                { field: "resting_hr_bpm",             round: 0 },
+  weight_body_mass:                  { field: "body_mass_kg",               round: 2 },
+  body_fat_percentage:               { field: "body_fat_pct",               round: 2 },
+  body_mass_index:                   { field: "bmi",                        round: 2 },
+  lean_body_mass:                    { field: "lean_body_mass_kg",          round: 2 },
+  apple_exercise_time:               { field: "exercise_min",               round: 0 },
+  active_energy:                     { field: "active_energy_kj",           round: 2 },
+  basal_energy_burned:               { field: "basal_energy_kj",            round: 2 },
+  apple_stand_hour:                  { field: "stand_hours",                round: 0 },
+  apple_stand_time:                  { field: "stand_min",                  round: 0 },
+  apple_sleeping_wrist_temperature:  { field: "sleeping_wrist_temp_c",      round: 2 },
+  blood_oxygen_saturation:           { field: "blood_oxygen_pct",           round: 2 },
+  environmental_audio_exposure:      { field: "environmental_audio_db",     round: 2 },
+  headphone_audio_exposure:          { field: "headphone_audio_db",         round: 2 },
+  flights_climbed:                   { field: "flights_climbed",            round: 0 },
+  physical_effort:                   { field: "physical_effort",            round: 2 },
+  respiratory_rate:                  { field: "respiratory_rate_bpm",       round: 2 },
+  step_count:                        { field: "step_count",                 round: 0 },
+  time_in_daylight:                  { field: "time_in_daylight_min",       round: 0 },
+  vo2_max:                           { field: "vo2_max",                    round: 2 },
+  walking_running_distance:          { field: "walking_running_km",         round: 3 },
+  walking_heart_rate_average:        { field: "walking_hr_avg_bpm",         round: 0 },
+  six_minute_walking_test_distance:  { field: "six_minute_walk_m",          round: 0 },
+  stair_speed_up:                    { field: "stair_speed_up_ms",          round: 3 },
+  stair_speed_down:                  { field: "stair_speed_down_ms",        round: 3 },
+  walking_asymmetry_percentage:      { field: "walking_asymmetry_pct",      round: 2 },
+  walking_double_support_percentage: { field: "walking_double_support_pct", round: 2 },
+  walking_speed:                     { field: "walking_speed_kmh",          round: 2 },
+  walking_step_length:               { field: "walking_step_length_cm",     round: 1 },
+};
+
+// sleep_analysis points carry per-stage durations in hours; convert to minutes
+// so they line up with the XML-derived total_sleep_min/deep_sleep_min/... fields.
+const SLEEP_FIELDS = {
+  totalSleep: "total_sleep_min",
+  deep:       "deep_sleep_min",
+  rem:        "rem_sleep_min",
+  core:       "core_sleep_min",
+  awake:      "awake_min",
+};
+
+export class JsonAggregator {
+  constructor({ cutoffEpoch = -Infinity } = {}) {
+    this.cutoffEpoch = cutoffEpoch;
+    this.days = new Map();
+    this.recordsParsed = 0;
+    this.recordsSkipped = 0;
+  }
+
+  #day(date) {
+    let d = this.days.get(date);
+    if (!d) {
+      d = {};
+      this.days.set(date, d);
+    }
+    return d;
+  }
+
+  // Resolve a point's local calendar day, honouring the cutoff window.
+  // Returns the day bucket, or null when the point is unusable/too old.
+  #bucket(point) {
+    const t = parseAppleDate(point?.date);
+    if (!t) {
+      this.recordsSkipped++;
+      return null;
+    }
+    if (t.epoch < this.cutoffEpoch) return null;
+    return this.#day(t.localDate);
+  }
+
+  addMetric(metric) {
+    const name = metric?.name;
+    const points = Array.isArray(metric?.data) ? metric.data : [];
+
+    if (name === "sleep_analysis") {
+      for (const p of points) this.#addSleep(p);
+      return;
+    }
+    if (name === "heart_rate") {
+      for (const p of points) this.#addHeartRate(p);
+      return;
+    }
+    const spec = QTY_METRICS[name];
+    if (!spec) return; // metric not modelled yet — ignore silently
+    for (const p of points) this.#addQty(p, spec);
+  }
+
+  #addQty(point, spec) {
+    const v = Number(point?.qty);
+    if (!Number.isFinite(v)) return void this.recordsSkipped++;
+    const d = this.#bucket(point);
+    if (!d) return;
+    d[spec.field] = round(v, spec.round);
+    this.recordsParsed++;
+  }
+
+  #addHeartRate(point) {
+    const min = Number(point?.Min);
+    const max = Number(point?.Max);
+    const avg = Number(point?.Avg);
+    if (![min, max, avg].some(Number.isFinite))
+      return void this.recordsSkipped++;
+    const d = this.#bucket(point);
+    if (!d) return;
+    if (Number.isFinite(min)) d.heart_rate_min_bpm = round(min, 0);
+    if (Number.isFinite(max)) d.heart_rate_max_bpm = round(max, 0);
+    if (Number.isFinite(avg)) d.heart_rate_avg_bpm = round(avg, 0);
+    this.recordsParsed++;
+  }
+
+  #addSleep(point) {
+    const d = this.#bucket(point);
+    if (!d) return;
+    for (const [src, field] of Object.entries(SLEEP_FIELDS)) {
+      const hours = Number(point?.[src]);
+      if (Number.isFinite(hours)) d[field] = round(hours * 60, 0);
+    }
+    d.sleep_sessions = (d.sleep_sessions ?? 0) + 1;
+    this.recordsParsed++;
+  }
+
+  finalize() {
+    return [...this.days.entries()]
+      .map(([date, fields]) => ({ date, ...fields }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }
+}
+
+// Parse a Health Auto Export document into per-day rows.
+// Returns the same envelope as the XML path so callers stay uniform.
+export function parseJsonExport(json, { cutoffEpoch = -Infinity } = {}) {
+  const metrics = json?.data?.metrics;
+  if (!Array.isArray(metrics))
+    throw new Error("Unrecognised JSON export: missing data.metrics array");
+
+  const agg = new JsonAggregator({ cutoffEpoch });
+  for (const metric of metrics) agg.addMetric(metric);
+
+  return {
+    rows: agg.finalize(),
+    recordsParsed: agg.recordsParsed,
+    recordsSkipped: agg.recordsSkipped,
+  };
+}
