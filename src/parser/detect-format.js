@@ -18,13 +18,15 @@ export function sniffContent(buf) {
   return null;
 }
 
-// Returns "json" | "xml" | "zip". A confident content sniff overrides the
-// extension; otherwise the extension decides, defaulting to "zip".
+// Returns "json" | "xml" | "zip". A confident content sniff always wins, since
+// a pre-signed upload URL carries a fixed extension regardless of the bytes the
+// client PUTs. Only ZIP and XML are reliably identifiable by magic bytes, so
+// anything that isn't clearly one of those is treated as JSON — the default.
 export function resolveFormat(key, firstChunk) {
   const sniffed = sniffContent(firstChunk);
   if (sniffed) return sniffed;
   const lower = (key ?? "").toLowerCase();
-  if (lower.endsWith(".json")) return "json";
   if (lower.endsWith(".xml")) return "xml";
-  return "zip";
+  if (lower.endsWith(".zip")) return "zip";
+  return "json";
 }
