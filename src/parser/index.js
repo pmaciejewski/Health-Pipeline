@@ -51,13 +51,32 @@ async function processObject(bucket, key) {
   console.log(JSON.stringify({ msg: "sync complete", ...status }));
 }
 
+// Drain an S3 GetObject Body to a UTF-8 string. The AWS SDK exposes
+// transformToString() on its stream blob; fall back to async iteration for
+// plain Node readables (e.g. in tests). Buffer chunks are decoded explicitly so
+// a multi-byte character split across chunks can never corrupt the text.
+export async function bodyToString(body) {
+  if (body == null) return "";
+  if (typeof body === "string") return body;
+  if (Buffer.isBuffer(body)) return body.toString("utf8");
+  if (typeof body.transformToString === "function")
+    return body.transformToString("utf-8");
+
+  const chunks = [];
+  for await (const chunk of body)
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  return Buffer.concat(chunks).toString("utf8");
+}
+
 // Read the whole S3 object and parse it as a Health Auto Export JSON document.
 // The feed is day-aggregated and small, so streaming buys nothing here. The
 // object key (extension) is ignored — whatever is uploaded is treated as JSON.
-async function readJson(body, key) {
-  let text = "";
-  body.setEncoding("utf8");
-  for await (const chunk of body) text += chunk;
+export async function readJson(body, key) {
+  const text = await bodyToString(body);
+  if (!text.trim())
+    throw new Error(
+      `Empty object at ${key} — the upload has no body (re-run the upload)`
+    );
 
   try {
     return JSON.parse(text);
