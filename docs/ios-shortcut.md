@@ -1,7 +1,9 @@
 # iOS Shortcut: "Health Sync"
 
-One-tap upload of the Apple Health export ZIP from the iPhone Share Sheet.
-You build it once in the Shortcuts app (~2 minutes).
+One-tap upload of the [Health Auto Export](https://www.healthexportapp.com/)
+JSON file from the iPhone Share Sheet. You build it once in the Shortcuts app
+(~2 minutes). The Health Auto Export app can also PUT to the upload URL directly
+via its built-in automation/REST export — the shortcut is just the manual path.
 
 ## Prerequisites
 
@@ -31,10 +33,11 @@ You build it once in the Shortcuts app (~2 minutes).
 
 ## Daily flow
 
-1. **Health app** → profile picture → **Export All Health Data** → wait → **Share**
-   → save to **Files** (or share directly to the Shortcut if offered).
-2. In **Files**, long-press `apple_health_export.zip` → **Share** → **Health Sync**.
-3. Wait for the notification. Parsing takes 1–3 minutes depending on export size.
+1. In **Health Auto Export**, export the metrics you want as **JSON** (or set up
+   an automation that does it on a schedule) and **Share** the file.
+2. Pick **Health Sync** from the Share Sheet (or, in **Files**, long-press the
+   exported `.json` → **Share** → **Health Sync**).
+3. Wait for the notification. Parsing takes a minute or two.
 4. Ask Claude: *"What's my sync status?"* to confirm.
 
 ## Notes

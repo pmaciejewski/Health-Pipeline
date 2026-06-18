@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   JsonAggregator,
   parseJsonExport,
+  parseAppleDate,
 } from "../src/parser/json-metrics.js";
 
 const fixture = JSON.parse(
@@ -17,6 +18,23 @@ const fixture = JSON.parse(
 function metric(name, data, units = "count") {
   return { name, units, data };
 }
+
+test("parseAppleDate extracts epoch and local calendar date", () => {
+  const t = parseAppleDate("2026-06-08 23:14:00 +0100");
+  assert.equal(t.localDate, "2026-06-08");
+  assert.equal(t.epoch, Date.UTC(2026, 5, 8, 22, 14, 0));
+});
+
+test("parseAppleDate handles negative offsets", () => {
+  const t = parseAppleDate("2026-06-08 23:14:00 -0500");
+  assert.equal(t.localDate, "2026-06-08");
+  assert.equal(t.epoch, Date.UTC(2026, 5, 9, 4, 14, 0));
+});
+
+test("parseAppleDate rejects garbage", () => {
+  assert.equal(parseAppleDate("not-a-date"), null);
+  assert.equal(parseAppleDate(undefined), null);
+});
 
 test("quantity metric maps to the mapped field on its local day", () => {
   const agg = new JsonAggregator();

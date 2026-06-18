@@ -2,12 +2,23 @@
 //
 // Shape: { "data": { "metrics": [ { name, units, data: [ { date, qty, source, ... } ] } ] } }
 //
-// Unlike Apple's raw export.xml (one node per sample), this feed is already
-// aggregated to a single point per metric per calendar day. We map each point
-// straight onto the per-day row shape the rest of the pipeline uses, so JSON and
-// XML uploads land in the same DynamoDB rows and are served by the same MCP tool.
+// The feed is already aggregated to a single point per metric per calendar day,
+// so each point maps straight onto a per-day row that the MCP tools serve.
 
-import { parseAppleDate } from "./aggregator.js";
+// Health Auto Export timestamps look like "2026-06-11 00:00:00 +0200": the
+// date/time is local, the trailing offset converts it to an absolute epoch.
+const APPLE_DATE_RE =
+  /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}) ([+-])(\d{2})(\d{2})$/;
+
+export function parseAppleDate(str) {
+  const m = APPLE_DATE_RE.exec(str ?? "");
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s, sign, oh, om] = m;
+  const offsetMs =
+    (sign === "-" ? -1 : 1) * (Number(oh) * 60 + Number(om)) * 60000;
+  const epoch = Date.UTC(+y, +mo - 1, +d, +h, +mi, +s) - offsetMs;
+  return { epoch, localDate: `${y}-${mo}-${d}` };
+}
 
 function round(v, digits = 0) {
   if (v == null || !Number.isFinite(v)) return null;
