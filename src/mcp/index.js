@@ -3,6 +3,7 @@ import { createDocumentClient } from "../shared/dynamo.js";
 import { getExpectedToken, tokensMatch } from "./auth.js";
 import { createMcpHandler } from "./mcp-handler.js";
 import { getHealthData } from "./tools/get-health-data.js";
+import { getRawHealthData } from "./tools/get-raw-health-data.js";
 import { requestUploadUrl, createUploadUrl } from "./tools/request-upload-url.js";
 import { getSyncStatus } from "./tools/get-sync-status.js";
 
@@ -13,7 +14,12 @@ const ctx = {
   bucket: process.env.UPLOAD_BUCKET,
 };
 
-const handleMcp = createMcpHandler([getHealthData, requestUploadUrl, getSyncStatus]);
+const handleMcp = createMcpHandler([
+  getHealthData,
+  getRawHealthData,
+  requestUploadUrl,
+  getSyncStatus,
+]);
 
 const JSON_HEADERS = { "Content-Type": "application/json" };
 

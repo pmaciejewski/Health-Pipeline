@@ -7,10 +7,14 @@ HR, sleep stages, body mass, steps, energy, heart-rate min/max/avg, blood
 oxygen, respiratory rate, VO2 max, walking/gait metrics, audio exposure, and
 more) in DynamoDB; an MCP server exposes the data to Claude on mobile.
 
-The feed is already aggregated to one point per metric per calendar day, so the
-parser maps each point straight onto a per-day DynamoDB row — a field is simply
-absent on days no source reported it. Whatever is PUT to the upload URL is
-parsed as JSON regardless of the object key's extension.
+The parser folds every point that lands on the same calendar day into a per-day
+DynamoDB row using each metric's natural daily aggregation (cumulative totals
+sum; rates average; heart rate keeps the day's min/max/mean), so both
+daily-granularity and hourly exports import correctly — a field is simply absent
+on days no source reported it. Alongside the daily rollups it also stores the
+raw, un-aggregated points exactly as imported (`pk=RAW`), so the underlying
+samples stay queryable. Whatever is PUT to the upload URL is parsed as JSON
+regardless of the object key's extension.
 
 ```
 [iPhone: Health Auto Export app]
@@ -20,13 +24,14 @@ parsed as JSON regardless of the object key's extension.
 ┌──────────────────┐  S3 event   ┌─────────────────────────────┐
 │ S3 uploads bucket│────────────▶│ Lambda: parser              │
 │ (private, 7-day  │             │ JSON → per-day aggregation  │
-│  expiry)         │             │                             │
+│  expiry)         │             │       + raw points          │
 └──────────────────┘             └──────────────┬──────────────┘
                                                 ▼
-                                        ┌───────────────┐
-                                        │   DynamoDB    │
-                                        │ pk=DAY sk=date│
-                                        └───────┬───────┘
+                                        ┌────────────────────┐
+                                        │      DynamoDB      │
+                                        │ pk=DAY  sk=date    │
+                                        │ pk=RAW  sk=date#m  │
+                                        └─────────┬──────────┘
                                                 │
                                ┌────────────────┴───────────────┐
                                │ Lambda: MCP server             │
@@ -42,6 +47,7 @@ parsed as JSON regardless of the object key's extension.
 | Tool | Purpose |
 |------|---------|
 | `get_health_data` | Daily metric rows for a date range (default: last 30 days) |
+| `get_raw_health_data` | Raw, un-aggregated import points for a date range (default: last 7 days, max 31) |
 | `request_upload_url` | Pre-signed S3 PUT URL for a fresh export |
 | `get_sync_status` | Last sync result + data coverage |
 
@@ -78,10 +84,10 @@ Infra changes go through PRs: the plan is posted as a PR comment; merging to
 
 ## Operational notes
 
-- **Parse window**: the parser only processes the last 90 days of a (cumulative)
-  export by default. For a one-off full-history backfill, set
-  `parse_window_days = 0` in `terraform/variables.tf` via PR, re-upload the
-  export, then revert.
+- **Parse window**: by default the parser keeps the full history of every
+  export (`parse_window_days = 0`). To cap storage to a trailing window instead,
+  set `parse_window_days` to a positive number in `terraform/variables.tf` via
+  PR; points older than that many days are then dropped on import.
 - **Token rotation**: `terraform apply -replace=random_password.auth_token`,
   then update the Claude connector URL and the Shortcut.
 - **Cost**: ~$0.15/month — S3 storage for transient uploads plus pennies of

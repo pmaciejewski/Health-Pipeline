@@ -10,6 +10,6 @@ variable "project" {
 
 variable "parse_window_days" {
   type        = number
-  default     = 90
-  description = "How many days back the parser processes from a cumulative Apple Health export. Set to 0 for full history (one-off backfill), then revert."
+  default     = 0
+  description = "How many days back the parser processes from a cumulative Apple Health export. 0 (the default) means full history — no window. Set to a positive number to only keep the trailing N days."
 }

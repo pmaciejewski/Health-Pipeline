@@ -200,8 +200,38 @@ export class JsonAggregator {
   }
 }
 
-// Parse a Health Auto Export document into per-day rows.
-// Returns the same envelope as the XML path so callers stay uniform.
+// Collect the raw, un-aggregated points exactly as exported, grouped into one
+// bucket per (calendar day, metric). Every metric is kept — including ones not
+// modelled for daily aggregation — so the raw store is a faithful copy of the
+// import. Points whose date is unparseable or older than the cutoff are dropped,
+// matching what the aggregator keeps.
+export function collectRaw(metrics, { cutoffEpoch = -Infinity } = {}) {
+  const byKey = new Map(); // `${date} ${name}` -> { date, metric, units, points }
+  for (const metric of metrics) {
+    const name = metric?.name;
+    if (!name) continue;
+    const units = metric?.units;
+    const points = Array.isArray(metric?.data) ? metric.data : [];
+    for (const p of points) {
+      const t = parseAppleDate(p?.date);
+      if (!t || t.epoch < cutoffEpoch) continue;
+      const key = `${t.localDate} ${name}`;
+      let bucket = byKey.get(key);
+      if (!bucket) {
+        bucket = { date: t.localDate, metric: name, units, points: [] };
+        byKey.set(key, bucket);
+      }
+      bucket.points.push(p);
+    }
+  }
+  return [...byKey.values()].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.metric.localeCompare(b.metric)
+  );
+}
+
+// Parse a Health Auto Export document into per-day rows plus the raw points that
+// produced them. `rows` are the daily aggregates served by get_health_data; `raw`
+// is the faithful per-(day, metric) copy served by get_raw_health_data.
 export function parseJsonExport(json, { cutoffEpoch = -Infinity } = {}) {
   const metrics = json?.data?.metrics;
   if (!Array.isArray(metrics))
@@ -212,6 +242,7 @@ export function parseJsonExport(json, { cutoffEpoch = -Infinity } = {}) {
 
   return {
     rows: agg.finalize(),
+    raw: collectRaw(metrics, { cutoffEpoch }),
     recordsParsed: agg.recordsParsed,
     recordsSkipped: agg.recordsSkipped,
   };

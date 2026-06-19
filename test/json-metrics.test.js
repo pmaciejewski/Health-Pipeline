@@ -6,6 +6,7 @@ import {
   JsonAggregator,
   parseJsonExport,
   parseAppleDate,
+  collectRaw,
 } from "../src/parser/json-metrics.js";
 
 const fixture = JSON.parse(
@@ -229,6 +230,61 @@ test("rows are sorted ascending by date", () => {
     agg.finalize().map((r) => r.date),
     ["2026-06-11", "2026-06-14", "2026-06-17"]
   );
+});
+
+test("collectRaw groups every metric's points by day, keeping unmodelled ones", () => {
+  const raw = collectRaw([
+    metric("step_count", [
+      { date: "2026-06-18 07:00:00 +0200", qty: 5 },
+      { date: "2026-06-18 08:00:00 +0200", qty: 9 },
+      { date: "2026-06-19 07:00:00 +0200", qty: 2 },
+    ]),
+    metric("some_future_metric", [{ date: "2026-06-18 09:00:00 +0200", qty: 1 }]),
+  ]);
+  // One bucket per (day, metric), sorted by day then metric name.
+  assert.deepEqual(
+    raw.map((r) => `${r.date} ${r.metric}`),
+    [
+      "2026-06-18 some_future_metric",
+      "2026-06-18 step_count",
+      "2026-06-19 step_count",
+    ]
+  );
+  const steps18 = raw.find(
+    (r) => r.date === "2026-06-18" && r.metric === "step_count"
+  );
+  assert.equal(steps18.points.length, 2);
+  assert.equal(steps18.units, "count");
+});
+
+test("collectRaw drops points before the cutoff and unparseable dates", () => {
+  const cutoffEpoch = Date.UTC(2026, 5, 14);
+  const raw = collectRaw(
+    [
+      metric("step_count", [
+        { date: "2026-06-11 00:00:00 +0200", qty: 100 },
+        { date: "not-a-date", qty: 1 },
+        { date: "2026-06-17 00:00:00 +0200", qty: 200 },
+      ]),
+    ],
+    { cutoffEpoch }
+  );
+  assert.equal(raw.length, 1);
+  assert.equal(raw[0].date, "2026-06-17");
+  assert.equal(raw[0].points.length, 1);
+});
+
+test("parseJsonExport returns raw points alongside daily rows", () => {
+  const { rows, raw } = parseJsonExport(hourlyFixture);
+  assert.ok(rows.length > 0);
+
+  const steps18 = raw.find(
+    (r) => r.date === "2026-06-18" && r.metric === "step_count"
+  );
+  assert.equal(steps18.units, "count");
+  assert.equal(steps18.points.length, 15);
+  // Every metric/day combination is preserved, not just the modelled ones.
+  assert.ok(raw.some((r) => r.metric === "sleep_analysis"));
 });
 
 test("parseJsonExport rejects a document without data.metrics", () => {

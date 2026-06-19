@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { getHealthData } from "../src/mcp/tools/get-health-data.js";
+import { getRawHealthData } from "../src/mcp/tools/get-raw-health-data.js";
 import { tokensMatch } from "../src/mcp/auth.js";
 import { createMcpHandler } from "../src/mcp/mcp-handler.js";
 
@@ -69,6 +70,59 @@ test("get_health_data rejects invalid dates and oversized ranges", async () => {
         ctx
       ),
     /start_date must be/
+  );
+});
+
+test("get_raw_health_data defaults to the last 7 days and strips dynamo keys", async () => {
+  const ddb = fakeDdb([
+    {
+      pk: "RAW",
+      sk: "2026-06-18#step_count",
+      date: "2026-06-18",
+      metric: "step_count",
+      units: "count",
+      points: [{ qty: 5 }],
+      updated_at: "x",
+    },
+  ]);
+  const res = await getRawHealthData.handler({}, { ddb, tableName: "t" });
+  const today = new Date().toISOString().slice(0, 10);
+  assert.equal(res.end_date, today);
+  const rangeDays =
+    (Date.parse(res.end_date) - Date.parse(res.start_date)) / 86400000 + 1;
+  assert.equal(rangeDays, 7);
+  assert.equal(res.items_returned, 1);
+  assert.deepEqual(res.raw[0], {
+    date: "2026-06-18",
+    metric: "step_count",
+    units: "count",
+    points: [{ qty: 5 }],
+  });
+});
+
+test("get_raw_health_data passes a metric filter through to the query", async () => {
+  const ddb = fakeDdb([]);
+  const res = await getRawHealthData.handler(
+    { last_days: 3, metric: "heart_rate" },
+    { ddb, tableName: "t" }
+  );
+  assert.equal(res.metric, "heart_rate");
+  const input = ddb.calls[0];
+  assert.equal(input.ExpressionAttributeValues[":p"], "RAW");
+  assert.equal(input.ExpressionAttributeValues[":m"], "heart_rate");
+  assert.equal(input.FilterExpression, "#m = :m");
+  assert.deepEqual(input.ExpressionAttributeNames, { "#m": "metric" });
+});
+
+test("get_raw_health_data rejects ranges beyond its 31-day cap", async () => {
+  const ctx = { ddb: fakeDdb(), tableName: "t" };
+  await assert.rejects(
+    () =>
+      getRawHealthData.handler(
+        { start_date: "2026-01-01", end_date: "2026-06-09" },
+        ctx
+      ),
+    /Range too large/
   );
 });
 
