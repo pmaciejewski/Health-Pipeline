@@ -15,6 +15,15 @@ const fixture = JSON.parse(
   )
 );
 
+// A second real export, this time at hourly granularity (many points per metric
+// per calendar day) spanning 2026-06-18 .. 2026-06-19.
+const hourlyFixture = JSON.parse(
+  readFileSync(
+    fileURLToPath(new URL("./fixtures/health-auto-export-hourly.json", import.meta.url)),
+    "utf8"
+  )
+);
+
 function metric(name, data, units = "count") {
   return { name, units, data };
 }
@@ -93,6 +102,81 @@ test("sleep_analysis converts hours to whole minutes and counts a session", () =
   assert.equal(row.core_sleep_min, 294);
   assert.equal(row.awake_min, 7);
   assert.equal(row.sleep_sessions, 1);
+});
+
+test("multiple intra-day points on a cumulative metric are summed", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("step_count", [
+      { date: "2026-06-18 17:00:00 +0200", qty: 5863 },
+      { date: "2026-06-18 18:00:00 +0200", qty: 1746 },
+      { date: "2026-06-18 19:00:00 +0200", qty: 391 },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.step_count, 8000);
+});
+
+test("multiple intra-day points on a rate metric are averaged", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("blood_oxygen_saturation", [
+      { date: "2026-06-18 00:00:00 +0200", qty: 96 },
+      { date: "2026-06-18 01:00:00 +0200", qty: 98 },
+      { date: "2026-06-18 02:00:00 +0200", qty: 100 },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.blood_oxygen_pct, 98);
+});
+
+test("heart_rate over a day keeps the lowest Min, highest Max and mean Avg", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("heart_rate", [
+      { date: "2026-06-18 00:00:00 +0200", Min: 66, Max: 84, Avg: 70 },
+      { date: "2026-06-18 12:00:00 +0200", Min: 56, Max: 114, Avg: 92 },
+      { date: "2026-06-18 18:00:00 +0200", Min: 65, Max: 145, Avg: 108 },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.heart_rate_min_bpm, 56);
+  assert.equal(row.heart_rate_max_bpm, 145);
+  assert.equal(row.heart_rate_avg_bpm, 90); // (70 + 92 + 108) / 3
+});
+
+test("two sleep sessions in one day sum their minutes and count both", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("sleep_analysis", [
+      { date: "2026-06-18 00:00:00 +0200", totalSleep: 1, deep: 0.5 },
+      { date: "2026-06-18 00:00:00 +0200", totalSleep: 2, deep: 0.5 },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.total_sleep_min, 180); // (1 + 2) hours
+  assert.equal(row.deep_sleep_min, 60); // (0.5 + 0.5) hours
+  assert.equal(row.sleep_sessions, 2);
+});
+
+test("parseJsonExport folds the real hourly export into per-day rows", () => {
+  const { rows, recordsSkipped } = parseJsonExport(hourlyFixture);
+
+  assert.equal(recordsSkipped, 0);
+  assert.deepEqual(rows.map((r) => r.date), ["2026-06-18", "2026-06-19"]);
+
+  const d18 = rows.find((r) => r.date === "2026-06-18");
+  // step_count is a sum of every hourly bucket, not just the last hour's 8.
+  assert.equal(d18.step_count, 8699);
+  // heart_rate folds the day's hourly min/max envelopes.
+  assert.equal(d18.heart_rate_min_bpm, 56);
+  assert.equal(d18.heart_rate_max_bpm, 145);
+  // Single-reading-per-day metrics still pass straight through.
+  assert.equal(d18.resting_hr_bpm, 69);
+  assert.equal(d18.body_mass_kg, 82.46);
+
+  const d19 = rows.find((r) => r.date === "2026-06-19");
+  assert.equal(d19.step_count, 1456);
 });
 
 test("unmodelled metrics are ignored without skipping", () => {

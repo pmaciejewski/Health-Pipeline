@@ -1,0 +1,1929 @@
+{
+  "data" : {
+    "metrics" : [
+      {
+        "data" : [
+          {
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 53.042666665712993,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 14.957333334287007,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 2,
+            "date" : "2026-06-19 07:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 08:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 5
+          }
+        ],
+        "name" : "apple_exercise_time",
+        "units" : "min"
+      },
+      {
+        "name" : "active_energy",
+        "data" : [
+          {
+            "date" : "2026-06-18 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 18.614616000000002
+          },
+          {
+            "date" : "2026-06-18 01:00:00 +0200",
+            "qty" : 1.6458358806331732,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 02:00:00 +0200",
+            "qty" : 10.077732119366827,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 03:00:00 +0200",
+            "qty" : 8.7989519999999981
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 04:00:00 +0200",
+            "qty" : 3.5061920000000004
+          },
+          {
+            "date" : "2026-06-18 05:00:00 +0200",
+            "qty" : 8.384736000000002,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 06:00:00 +0200",
+            "qty" : 3.7100140337155563
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 07:00:00 +0200",
+            "qty" : 50.422577966284436
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 68.399436195701512,
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 09:00:00 +0200",
+            "qty" : 79.247082369514573
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 10:00:00 +0200",
+            "qty" : 81.989746352858404
+          },
+          {
+            "date" : "2026-06-18 11:00:00 +0200",
+            "qty" : 97.065700385173784,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 84.796486905709941,
+            "date" : "2026-06-18 12:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 56.697083255549238,
+            "date" : "2026-06-18 13:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 14:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 78.846123913879524
+          },
+          {
+            "date" : "2026-06-18 15:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 58.329790615067779
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 16:00:00 +0200",
+            "qty" : 51.258457896546133
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 982.76113305465014
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 378.95333078138827
+          },
+          {
+            "qty" : 147.72135253549197,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "qty" : 22.375475738470204,
+            "date" : "2026-06-18 20:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 12.083392,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 23:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 00:00:00 +0200",
+            "qty" : 1.0627359999999999,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 01:00:00 +0200",
+            "qty" : 1.5773679999999997,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 02:00:00 +0200",
+            "qty" : 2.1338400000000002,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200",
+            "qty" : 4.6484240000000012
+          },
+          {
+            "date" : "2026-06-19 04:00:00 +0200",
+            "qty" : 1.9539279999999997,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 05:00:00 +0200",
+            "qty" : 2.640104
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 15.999616000000001
+          },
+          {
+            "qty" : 130.1777116176585,
+            "date" : "2026-06-19 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 182.81896038234149,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200"
+          }
+        ],
+        "units" : "kJ"
+      },
+      {
+        "name" : "apple_stand_hour",
+        "units" : "count",
+        "data" : [
+          {
+            "qty" : 1,
+            "source" : "",
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 07:00:00 +0200",
+            "source" : "",
+            "qty" : 1
+          },
+          {
+            "source" : "",
+            "qty" : 1,
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "",
+            "date" : "2026-06-18 11:00:00 +0200",
+            "qty" : 1
+          },
+          {
+            "qty" : 1,
+            "source" : "",
+            "date" : "2026-06-18 13:00:00 +0200"
+          },
+          {
+            "source" : "",
+            "date" : "2026-06-18 14:00:00 +0200",
+            "qty" : 1
+          },
+          {
+            "source" : "",
+            "qty" : 1,
+            "date" : "2026-06-18 17:00:00 +0200"
+          },
+          {
+            "source" : "",
+            "qty" : 1,
+            "date" : "2026-06-18 18:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 1,
+            "source" : ""
+          },
+          {
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 1,
+            "source" : ""
+          },
+          {
+            "date" : "2026-06-19 07:00:00 +0200",
+            "qty" : 1,
+            "source" : ""
+          },
+          {
+            "source" : "",
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 1
+          }
+        ]
+      },
+      {
+        "units" : "degC",
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 36.4605712890625,
+            "date" : "2026-06-18 00:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 36.424312591552734
+          }
+        ],
+        "name" : "apple_sleeping_wrist_temperature"
+      },
+      {
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1,
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 2
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 08:00:00 +0200",
+            "qty" : 1
+          },
+          {
+            "date" : "2026-06-18 11:00:00 +0200",
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 13:00:00 +0200",
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 14:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 56
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 17
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 4
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 1
+          },
+          {
+            "qty" : 7,
+            "date" : "2026-06-19 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 9,
+            "date" : "2026-06-19 08:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          }
+        ],
+        "units" : "min",
+        "name" : "apple_stand_time"
+      },
+      {
+        "units" : "count",
+        "data" : [
+          {
+            "date" : "2026-06-18 08:00:00 +0200",
+            "qty" : 24.893129348754883,
+            "source" : "Withings"
+          }
+        ],
+        "name" : "body_mass_index"
+      },
+      {
+        "units" : "%",
+        "data" : [
+          {
+            "qty" : 18.070001602172852,
+            "date" : "2026-06-18 08:00:00 +0200",
+            "source" : "Withings"
+          }
+        ],
+        "name" : "body_fat_percentage"
+      },
+      {
+        "name" : "blood_oxygen_saturation",
+        "data" : [
+          {
+            "qty" : 97,
+            "date" : "2026-06-18 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 01:00:00 +0200",
+            "qty" : 97
+          },
+          {
+            "qty" : 98,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 98,
+            "date" : "2026-06-18 03:00:00 +0200"
+          },
+          {
+            "qty" : 98,
+            "date" : "2026-06-18 04:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 05:00:00 +0200",
+            "qty" : 97
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 06:00:00 +0200",
+            "qty" : 96
+          },
+          {
+            "qty" : 97,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 15:00:00 +0200",
+            "qty" : 98,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 99,
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 97,
+            "date" : "2026-06-18 23:00:00 +0200"
+          },
+          {
+            "qty" : 94.5,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 00:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 01:00:00 +0200",
+            "qty" : 96,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 96,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 02:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200",
+            "qty" : 95.5
+          },
+          {
+            "qty" : 100,
+            "date" : "2026-06-19 04:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 96,
+            "date" : "2026-06-19 05:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 98,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 06:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 99,
+            "date" : "2026-06-19 07:00:00 +0200"
+          }
+        ],
+        "units" : "%"
+      },
+      {
+        "name" : "environmental_audio_exposure",
+        "units" : "dBASPL",
+        "data" : [
+          {
+            "date" : "2026-06-18 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 46.92113909481499
+          },
+          {
+            "date" : "2026-06-18 01:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 43.160754115681101
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 02:00:00 +0200",
+            "qty" : 40.50258665160591
+          },
+          {
+            "qty" : 56.73890138961287,
+            "date" : "2026-06-18 03:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 04:00:00 +0200",
+            "qty" : 37.391570371890765,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 05:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 41.898134200420522
+          },
+          {
+            "qty" : 47.950516567313727,
+            "date" : "2026-06-18 06:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 60.862401962037097,
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "qty" : 58.128967287610777,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 09:00:00 +0200",
+            "qty" : 57.361625828548469,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 10:00:00 +0200",
+            "qty" : 54.719346619416768,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 61.267843577131558,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 11:00:00 +0200"
+          },
+          {
+            "qty" : 62.125243642201809,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 12:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 13:00:00 +0200",
+            "qty" : 57.742844546844424,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 49.627280941387447,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 14:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 15:00:00 +0200",
+            "qty" : 53.633162962654296,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 16:00:00 +0200",
+            "qty" : 61.877338846635638,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 73.785951025080664,
+            "date" : "2026-06-18 17:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 74.687047241899791
+          },
+          {
+            "qty" : 71.043462654318915,
+            "date" : "2026-06-18 19:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 20:00:00 +0200",
+            "qty" : 72.181069684740891
+          },
+          {
+            "qty" : 52.476899098226369,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 23:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 00:00:00 +0200",
+            "qty" : 45.145412522030298,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 35.648920782062831,
+            "date" : "2026-06-19 01:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 42.803069579243697,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 02:00:00 +0200"
+          },
+          {
+            "qty" : 60.228025393139752,
+            "date" : "2026-06-19 03:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 04:00:00 +0200",
+            "qty" : 36.601125644707295
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 48.715470164057507,
+            "date" : "2026-06-19 05:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 06:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 52.371593107076052
+          },
+          {
+            "qty" : 65.501959995938165,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 07:00:00 +0200"
+          }
+        ]
+      },
+      {
+        "units" : "count",
+        "name" : "flights_climbed",
+        "data" : [
+          {
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 4,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          }
+        ]
+      },
+      {
+        "units" : "dBASPL",
+        "data" : [
+          {
+            "qty" : 43.494271845735661,
+            "date" : "2026-06-18 00:00:00 +0200",
+            "source" : "Romuald"
+          },
+          {
+            "qty" : 42.718917762734073,
+            "source" : "Romuald",
+            "date" : "2026-06-18 01:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 02:00:00 +0200",
+            "qty" : 42.565092134918373,
+            "source" : "Romuald"
+          },
+          {
+            "date" : "2026-06-18 12:00:00 +0200",
+            "qty" : 50.660576063041482,
+            "source" : "Romuald"
+          },
+          {
+            "qty" : 71.314100997381672,
+            "source" : "Romuald",
+            "date" : "2026-06-18 17:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 66.320577952728101
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 66.65387219587393
+          },
+          {
+            "qty" : 47.266800095376702,
+            "date" : "2026-06-18 22:00:00 +0200",
+            "source" : "Romuald"
+          },
+          {
+            "date" : "2026-06-18 23:00:00 +0200",
+            "qty" : 46.970208782017686,
+            "source" : "Romuald"
+          }
+        ],
+        "name" : "headphone_audio_exposure"
+      },
+      {
+        "data" : [
+          {
+            "Min" : 66,
+            "date" : "2026-06-18 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 71.15384615384616,
+            "Max" : 84
+          },
+          {
+            "Avg" : 70.532176208496068,
+            "date" : "2026-06-18 01:00:00 +0200",
+            "Max" : 74,
+            "source" : "Paweł’s Apple Watch",
+            "Min" : 67
+          },
+          {
+            "Max" : 83,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 02:00:00 +0200",
+            "Avg" : 69.857142857142861,
+            "Min" : 66
+          },
+          {
+            "date" : "2026-06-18 03:00:00 +0200",
+            "Avg" : 65.421167874813747,
+            "Max" : 70,
+            "Min" : 59,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 04:00:00 +0200",
+            "Min" : 61,
+            "Max" : 67,
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 64.142660521601655
+          },
+          {
+            "Avg" : 65.346463521321624,
+            "Max" : 69.196952819824219,
+            "date" : "2026-06-18 05:00:00 +0200",
+            "Min" : 58,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "Avg" : 66.357142857142847,
+            "Min" : 63,
+            "Max" : 70,
+            "date" : "2026-06-18 06:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 07:00:00 +0200",
+            "Min" : 60,
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 74.070058789240775,
+            "Max" : 101
+          },
+          {
+            "Avg" : 82.461538461538467,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 08:00:00 +0200",
+            "Min" : 63,
+            "Max" : 97
+          },
+          {
+            "Min" : 82.31463623046875,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 09:00:00 +0200",
+            "Avg" : 92.168236572573875,
+            "Max" : 99
+          },
+          {
+            "Max" : 107,
+            "date" : "2026-06-18 10:00:00 +0200",
+            "Min" : 83,
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 94.72727272727272
+          },
+          {
+            "Min" : 88,
+            "Avg" : 93.600000000000023,
+            "Max" : 99,
+            "date" : "2026-06-18 11:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "Max" : 114,
+            "date" : "2026-06-18 12:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "Min" : 56,
+            "Avg" : 92
+          },
+          {
+            "Avg" : 97.652802687424895,
+            "Min" : 85,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 119,
+            "date" : "2026-06-18 13:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 14:00:00 +0200",
+            "Avg" : 87.384615384615387,
+            "Min" : 65,
+            "Max" : 99
+          },
+          {
+            "Max" : 100,
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 87.792938408129714,
+            "date" : "2026-06-18 15:00:00 +0200",
+            "Min" : 67
+          },
+          {
+            "Max" : 97,
+            "Avg" : 87.583333333333314,
+            "source" : "Paweł’s Apple Watch",
+            "Min" : 69,
+            "date" : "2026-06-18 16:00:00 +0200"
+          },
+          {
+            "Avg" : 112.42302071643525,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 129,
+            "date" : "2026-06-18 17:00:00 +0200",
+            "Min" : 67
+          },
+          {
+            "Max" : 145,
+            "date" : "2026-06-18 18:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "Min" : 65,
+            "Avg" : 108.16039507285555
+          },
+          {
+            "Avg" : 104.71076488472391,
+            "Min" : 88,
+            "Max" : 121,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 20:00:00 +0200",
+            "Min" : 72,
+            "Max" : 93,
+            "Avg" : 82.499999999999986
+          },
+          {
+            "Avg" : 72.32637807715453,
+            "date" : "2026-06-18 23:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 80,
+            "Min" : 68
+          },
+          {
+            "Max" : 74,
+            "Min" : 61.999999999999993,
+            "date" : "2026-06-19 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 71.214285714285722
+          },
+          {
+            "Avg" : 70.452843984838339,
+            "Max" : 73,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 01:00:00 +0200",
+            "Min" : 64
+          },
+          {
+            "Min" : 63,
+            "Avg" : 69.000000000000014,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 80,
+            "date" : "2026-06-19 02:00:00 +0200"
+          },
+          {
+            "Avg" : 67.154392787388417,
+            "Max" : 73,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200",
+            "Min" : 64
+          },
+          {
+            "Max" : 73,
+            "date" : "2026-06-19 04:00:00 +0200",
+            "Min" : 60,
+            "source" : "Paweł’s Apple Watch",
+            "Avg" : 66.689501531676484
+          },
+          {
+            "date" : "2026-06-19 05:00:00 +0200",
+            "Avg" : 69.426391191177075,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 73,
+            "Min" : 61.999999999999993
+          },
+          {
+            "Min" : 59,
+            "Avg" : 66.071428571428584,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 81,
+            "date" : "2026-06-19 06:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 07:00:00 +0200",
+            "Min" : 67,
+            "source" : "Paweł’s Apple Watch",
+            "Max" : 119,
+            "Avg" : 92.840844476364452
+          },
+          {
+            "Min" : 89,
+            "Avg" : 103.37958176494757,
+            "Max" : 142,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200"
+          }
+        ],
+        "name" : "heart_rate",
+        "units" : "count\/min"
+      },
+      {
+        "data" : [
+          {
+            "date" : "2026-06-18 01:00:00 +0200",
+            "qty" : 27.031645494909203,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 88.960781700868893,
+            "date" : "2026-06-18 03:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 60.867738548977158,
+            "date" : "2026-06-18 05:00:00 +0200"
+          },
+          {
+            "qty" : 132.1627954714925,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "qty" : 58.895845923730114,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 09:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 13:00:00 +0200",
+            "qty" : 18.068005727691013
+          },
+          {
+            "date" : "2026-06-18 15:00:00 +0200",
+            "qty" : 150.11901266503241,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 37.007350792245411,
+            "date" : "2026-06-18 19:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 23:00:00 +0200",
+            "qty" : 37.298915432531153,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 26.211423212270919,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 01:00:00 +0200"
+          },
+          {
+            "qty" : 26.018939490337317,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 05:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 89.711720860114312
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 133.28219879529726,
+            "date" : "2026-06-19 07:00:00 +0200"
+          }
+        ],
+        "name" : "heart_rate_variability",
+        "units" : "ms"
+      },
+      {
+        "name" : "lean_body_mass",
+        "units" : "kg",
+        "data" : [
+          {
+            "source" : "Withings",
+            "date" : "2026-06-18 08:00:00 +0200",
+            "qty" : 67.555999755859375
+          }
+        ]
+      },
+      {
+        "name" : "physical_effort",
+        "units" : "kcal\/hr·kg",
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 00:00:00 +0200",
+            "qty" : 3.1499999165534973
+          },
+          {
+            "date" : "2026-06-18 01:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1.1000000238418579,
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "qty" : 1,
+            "date" : "2026-06-18 03:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 04:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 05:00:00 +0200",
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 06:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 2.3999999364217124,
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "qty" : 3.0999999443689981,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1.5,
+            "date" : "2026-06-18 09:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 10:00:00 +0200",
+            "qty" : 2.8500000834465027,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 11:00:00 +0200",
+            "qty" : 3.7900000452995299
+          },
+          {
+            "date" : "2026-06-18 12:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 3.4249999821186066
+          },
+          {
+            "date" : "2026-06-18 13:00:00 +0200",
+            "qty" : 1.2999999523162842,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 14:00:00 +0200",
+            "qty" : 2.1599999904632567,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 15:00:00 +0200",
+            "qty" : 1.2999999523162842
+          },
+          {
+            "qty" : 2.3999999761581421,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 16:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 3.8018181822516701
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 3.4804878031335225,
+            "date" : "2026-06-18 18:00:00 +0200"
+          },
+          {
+            "qty" : 3.1933333476384482,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 23:00:00 +0200",
+            "qty" : 2.5000000794728598
+          },
+          {
+            "qty" : 1,
+            "date" : "2026-06-19 00:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 01:00:00 +0200",
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 02:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200",
+            "qty" : 1
+          },
+          {
+            "date" : "2026-06-19 04:00:00 +0200",
+            "qty" : 1,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 1.1000000238418579,
+            "date" : "2026-06-19 05:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 1,
+            "date" : "2026-06-19 06:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 4.1263158070413688
+          },
+          {
+            "qty" : 4.2461538268969612,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200"
+          }
+        ]
+      },
+      {
+        "name" : "basal_energy_burned",
+        "units" : "kJ",
+        "data" : [
+          {
+            "qty" : 292.57558454725483,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 00:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 01:00:00 +0200",
+            "qty" : 317.60249708889103
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 318.78841415806454,
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 03:00:00 +0200",
+            "qty" : 317.37486521921744,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 04:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 317.59759522018476
+          },
+          {
+            "qty" : 317.87748194935506,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 05:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 06:00:00 +0200",
+            "qty" : 317.83730439515995,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 348.49060041137403
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 08:00:00 +0200",
+            "qty" : 359.68562997258601
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 09:00:00 +0200",
+            "qty" : 364.50466801874592
+          },
+          {
+            "date" : "2026-06-18 10:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 372.47586815614159
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 11:00:00 +0200",
+            "qty" : 380.38845169466884
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 12:00:00 +0200",
+            "qty" : 364.83078089410526
+          },
+          {
+            "qty" : 351.058594573466,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 13:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 367.7569232294112,
+            "date" : "2026-06-18 14:00:00 +0200"
+          },
+          {
+            "qty" : 344.50419568039621,
+            "date" : "2026-06-18 15:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-18 16:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 337.30731398384529
+          },
+          {
+            "qty" : 436.53104476016813,
+            "date" : "2026-06-18 17:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 405.99064876164277,
+            "date" : "2026-06-18 18:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 413.17574924226744,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "qty" : 328.90181613660627,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 20:00:00 +0200"
+          },
+          {
+            "qty" : 315.97986400000002,
+            "date" : "2026-06-18 21:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 22:00:00 +0200",
+            "qty" : 315.97986400000002
+          },
+          {
+            "date" : "2026-06-18 23:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 322.08833787775961
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 316.34815183385751,
+            "date" : "2026-06-19 00:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 01:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 317.18120739172468
+          },
+          {
+            "date" : "2026-06-19 02:00:00 +0200",
+            "qty" : 316.6275088049789,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 317.17451778035206,
+            "date" : "2026-06-19 03:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 04:00:00 +0200",
+            "qty" : 317.36483735520255,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 05:00:00 +0200",
+            "qty" : 316.39009790719319
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 328.11202090306568
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 07:00:00 +0200",
+            "qty" : 368.97507750315356
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 140.27777454914437
+          }
+        ]
+      },
+      {
+        "units" : "count\/min",
+        "name" : "resting_heart_rate",
+        "data" : [
+          {
+            "qty" : 69,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 00:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 00:00:00 +0200",
+            "qty" : 76
+          }
+        ]
+      },
+      {
+        "data" : [
+          {
+            "date" : "2026-06-18 00:00:00 +0200",
+            "qty" : 19.375,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 01:00:00 +0200",
+            "qty" : 18.416666666666668
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 02:00:00 +0200",
+            "qty" : 17.75
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 16.75,
+            "date" : "2026-06-18 03:00:00 +0200"
+          },
+          {
+            "qty" : 17,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 04:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 05:00:00 +0200",
+            "qty" : 16.5
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 06:00:00 +0200",
+            "qty" : 16.416666666666668
+          },
+          {
+            "qty" : 15.333333333333334,
+            "date" : "2026-06-18 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 21.75,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 23:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 00:00:00 +0200",
+            "qty" : 18.5
+          },
+          {
+            "date" : "2026-06-19 01:00:00 +0200",
+            "qty" : 18.75,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "date" : "2026-06-19 02:00:00 +0200",
+            "qty" : 17.916666666666668,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 03:00:00 +0200",
+            "qty" : 17.5
+          },
+          {
+            "date" : "2026-06-19 04:00:00 +0200",
+            "qty" : 16.399999999999999,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 05:00:00 +0200",
+            "qty" : 17.142857142857142
+          },
+          {
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 16.416666666666668,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 19,
+            "date" : "2026-06-19 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch"
+          }
+        ],
+        "name" : "respiratory_rate",
+        "units" : "count\/min"
+      },
+      {
+        "name" : "step_count",
+        "units" : "count",
+        "data" : [
+          {
+            "qty" : 32,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 02:00:00 +0200"
+          },
+          {
+            "qty" : 47,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 08:00:00 +0200",
+            "qty" : 97
+          },
+          {
+            "qty" : 39,
+            "date" : "2026-06-18 09:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "qty" : 24,
+            "date" : "2026-06-18 10:00:00 +0200"
+          },
+          {
+            "qty" : 175,
+            "date" : "2026-06-18 11:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 12:00:00 +0200",
+            "qty" : 39
+          },
+          {
+            "qty" : 18,
+            "date" : "2026-06-18 13:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 60,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 14:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 16:00:00 +0200",
+            "qty" : 104,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 5863
+          },
+          {
+            "qty" : 1746.3556958125307,
+            "date" : "2026-06-18 18:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 283.64430418746929,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 22:00:00 +0200",
+            "qty" : 163
+          },
+          {
+            "qty" : 8,
+            "date" : "2026-06-18 23:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 20,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-19 06:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 07:00:00 +0200",
+            "qty" : 645.83492392610992,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 790.16507607389008,
+            "date" : "2026-06-19 08:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          }
+        ]
+      },
+      {
+        "name" : "sleep_analysis",
+        "data" : [
+          {
+            "awake" : 0.14155480153030819,
+            "deep" : 1.2241163027617668,
+            "rem" : 2.0734058077467812,
+            "core" : 3.3640947790940605,
+            "inBedEnd" : "2026-06-18 07:32:07 +0200",
+            "inBed" : 0,
+            "asleep" : 0,
+            "sleepStart" : "2026-06-18 00:43:56 +0200",
+            "date" : "2026-06-18 00:00:00 +0200",
+            "inBedStart" : "2026-06-18 00:43:56 +0200",
+            "sleepEnd" : "2026-06-18 07:32:07 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "totalSleep" : 6.6616168896026089
+          },
+          {
+            "deep" : 1.3936353341407246,
+            "date" : "2026-06-19 00:00:00 +0200",
+            "awake" : 0.30862396932310532,
+            "totalSleep" : 6.7585978667934725,
+            "core" : 3.7049791240360999,
+            "asleep" : 0,
+            "source" : "Paweł’s Apple Watch",
+            "rem" : 1.6599834086166489,
+            "inBedEnd" : "2026-06-19 06:58:28 +0200",
+            "sleepStart" : "2026-06-18 23:54:26 +0200",
+            "sleepEnd" : "2026-06-19 06:58:28 +0200",
+            "inBedStart" : "2026-06-18 23:54:26 +0200",
+            "inBed" : 0
+          }
+        ],
+        "units" : "hr"
+      },
+      {
+        "units" : "m\/s",
+        "data" : [
+          {
+            "qty" : 0.26400157809257507,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 0.26845283061265945
+          }
+        ],
+        "name" : "stair_speed_up"
+      },
+      {
+        "name" : "stair_speed_down",
+        "units" : "m\/s",
+        "data" : [
+          {
+            "date" : "2026-06-18 17:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 0.37011670072873432
+          },
+          {
+            "qty" : 0.37065183371305466,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 07:00:00 +0200"
+          }
+        ]
+      },
+      {
+        "name" : "time_in_daylight",
+        "units" : "min",
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 13:00:00 +0200",
+            "qty" : 25.281990859508515
+          },
+          {
+            "date" : "2026-06-18 14:00:00 +0200",
+            "qty" : 41.457044500509902,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "qty" : 6.2609646399815881,
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 15:00:00 +0200"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 16:00:00 +0200",
+            "qty" : 16
+          },
+          {
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 54.730388148625693,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 15.269611851374307
+          },
+          {
+            "date" : "2026-06-19 07:00:00 +0200",
+            "source" : "Paweł’s Apple Watch",
+            "qty" : 6
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 5
+          }
+        ]
+      },
+      {
+        "units" : "ml\/(kg·min)",
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 36.350000000000001
+          }
+        ],
+        "name" : "vo2_max"
+      },
+      {
+        "data" : [
+          {
+            "date" : "2026-06-18 02:00:00 +0200",
+            "qty" : 0.022067211672663688,
+            "source" : "Paweł’s Apple Watch"
+          },
+          {
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 07:00:00 +0200",
+            "qty" : 0.0300715041346848
+          },
+          {
+            "qty" : 0.062940396982710811,
+            "date" : "2026-06-18 08:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 0.025471666810568422,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 09:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 10:00:00 +0200",
+            "qty" : 0.015966441647149623,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "date" : "2026-06-18 11:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "qty" : 0.13885067079123109
+          },
+          {
+            "date" : "2026-06-18 12:00:00 +0200",
+            "qty" : 0.019093371622264384,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 0.012300844132434577,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 13:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 14:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "qty" : 0.031935498308856038
+          },
+          {
+            "qty" : 0.066826860328670593,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-18 16:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 17:00:00 +0200",
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "qty" : 4.1311636389805937
+          },
+          {
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 1.197185870220306,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 0.1925960908821984,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "date" : "2026-06-18 22:00:00 +0200",
+            "qty" : 0.11396000000019557,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "date" : "2026-06-18 23:00:00 +0200",
+            "qty" : 0.0056634371629916127,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "date" : "2026-06-19 06:00:00 +0200",
+            "qty" : 0.012269732251297683,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          },
+          {
+            "qty" : 0.44668052856536311,
+            "source" : "Paweł’s Apple Watch|Romuald",
+            "date" : "2026-06-19 07:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 0.56703796143405405,
+            "source" : "Paweł’s Apple Watch|Romuald"
+          }
+        ],
+        "name" : "walking_running_distance",
+        "units" : "km"
+      },
+      {
+        "name" : "walking_asymmetry_percentage",
+        "units" : "%",
+        "data" : [
+          {
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 0,
+            "source" : "Romuald"
+          },
+          {
+            "date" : "2026-06-18 18:00:00 +0200",
+            "source" : "Romuald",
+            "qty" : 0
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-19 07:00:00 +0200",
+            "qty" : 0
+          },
+          {
+            "date" : "2026-06-19 08:00:00 +0200",
+            "source" : "Romuald",
+            "qty" : 0
+          }
+        ]
+      },
+      {
+        "data" : [
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 07:00:00 +0200",
+            "qty" : 31.949999999999999
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 30.899999999999999,
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 27.237500000000004,
+            "date" : "2026-06-18 17:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 18:00:00 +0200",
+            "qty" : 28.262500000000003
+          },
+          {
+            "qty" : 31.100000000000001,
+            "source" : "Romuald",
+            "date" : "2026-06-18 19:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 22:00:00 +0200",
+            "source" : "Romuald",
+            "qty" : 31.600000000000001
+          },
+          {
+            "qty" : 26.800000000000001,
+            "source" : "Romuald",
+            "date" : "2026-06-19 07:00:00 +0200"
+          },
+          {
+            "qty" : 27.050000000000001,
+            "source" : "Romuald",
+            "date" : "2026-06-19 08:00:00 +0200"
+          }
+        ],
+        "units" : "%",
+        "name" : "walking_double_support_percentage"
+      },
+      {
+        "units" : "km\/hr",
+        "name" : "walking_speed",
+        "data" : [
+          {
+            "date" : "2026-06-18 07:00:00 +0200",
+            "qty" : 3.024,
+            "source" : "Romuald"
+          },
+          {
+            "qty" : 3.1679999999999997,
+            "source" : "Romuald",
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 5.0647500000000001,
+            "date" : "2026-06-18 17:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-18 18:00:00 +0200",
+            "source" : "Romuald",
+            "qty" : 4.7384999999999993
+          },
+          {
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 3.1319999999999997,
+            "source" : "Romuald"
+          },
+          {
+            "qty" : 2.8799999999999999,
+            "source" : "Romuald",
+            "date" : "2026-06-18 22:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 5.3279999999999994,
+            "date" : "2026-06-19 07:00:00 +0200"
+          },
+          {
+            "date" : "2026-06-19 08:00:00 +0200",
+            "qty" : 4.8239999999999998,
+            "source" : "Romuald"
+          }
+        ]
+      },
+      {
+        "name" : "walking_heart_rate_average",
+        "data" : [
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-18 00:00:00 +0200",
+            "qty" : 113
+          },
+          {
+            "source" : "Paweł’s Apple Watch",
+            "date" : "2026-06-19 00:00:00 +0200",
+            "qty" : 116
+          }
+        ],
+        "units" : "count\/min"
+      },
+      {
+        "data" : [
+          {
+            "source" : "Withings",
+            "qty" : 82.456001281738281,
+            "date" : "2026-06-18 08:00:00 +0200"
+          }
+        ],
+        "name" : "weight_body_mass",
+        "units" : "kg"
+      },
+      {
+        "name" : "walking_step_length",
+        "data" : [
+          {
+            "qty" : 51.5,
+            "source" : "Romuald",
+            "date" : "2026-06-18 07:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 51,
+            "date" : "2026-06-18 08:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 17:00:00 +0200",
+            "qty" : 70.9375
+          },
+          {
+            "qty" : 67,
+            "source" : "Romuald",
+            "date" : "2026-06-18 18:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "date" : "2026-06-18 19:00:00 +0200",
+            "qty" : 49
+          },
+          {
+            "qty" : 50,
+            "source" : "Romuald",
+            "date" : "2026-06-18 22:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 69,
+            "date" : "2026-06-19 07:00:00 +0200"
+          },
+          {
+            "source" : "Romuald",
+            "qty" : 62,
+            "date" : "2026-06-19 08:00:00 +0200"
+          }
+        ],
+        "units" : "cm"
+      }
+    ]
+  }
+}
