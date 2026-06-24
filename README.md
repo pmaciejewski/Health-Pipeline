@@ -53,7 +53,8 @@ parsed as JSON regardless of the object key's extension.
 - `src/shared/` — DynamoDB access helpers
 - `terraform/` — all infrastructure (S3, DynamoDB, Lambdas, API GW, IAM)
 - `.github/workflows/` — CI (test/validate), plan-on-PR, apply-on-main
-- `docs/` — [Claude connector setup](docs/claude-connector.md), [iOS Shortcut](docs/ios-shortcut.md)
+- `docs/` — [Claude connector setup](docs/claude-connector.md), [iOS Shortcut](docs/ios-shortcut.md),
+  [direct REST API ingest](docs/auto-export-direct.md)
 
 ## One-time setup
 
@@ -82,7 +83,15 @@ Infra changes go through PRs: the plan is posted as a PR comment; merging to
   export by default. For a one-off full-history backfill, set
   `parse_window_days = 0` in `terraform/variables.tf` via PR, re-upload the
   export, then revert.
+- **Automated uploads**: the Health Auto Export app can POST exports straight to
+  the `POST /ingest` endpoint (header `X-Auth-Token`, a separate write-only
+  token) on a schedule — no Shortcut needed. See
+  [docs/auto-export-direct.md](docs/auto-export-direct.md). Large full-history
+  backfills should still use the pre-signed `/upload-url` flow (the direct
+  endpoint caps payloads at ~5 MB).
 - **Token rotation**: `terraform apply -replace=random_password.auth_token`,
-  then update the Claude connector URL and the Shortcut.
+  then update the Claude connector URL and the Shortcut. The ingest token
+  rotates independently: `terraform apply -replace=random_password.ingest_token`,
+  then update the app automation's `X-Auth-Token` header.
 - **Cost**: ~$0.15/month — S3 storage for transient uploads plus pennies of
   Lambda/DynamoDB; everything else sits in the free tier at single-user volumes.

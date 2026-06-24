@@ -22,6 +22,17 @@ resource "aws_apigatewayv2_route" "upload_url" {
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
+# Direct file ingest for the Health Auto Export app's REST API automation,
+# which can only POST to a fixed URL. Auth is the X-Auth-Token header
+# (ingest_token), checked in the Lambda. The body is written straight to S3,
+# capped to stay under the Lambda payload limit — large backfills use the
+# pre-signed /upload-url flow instead.
+resource "aws_apigatewayv2_route" "ingest" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "POST /ingest"
+  target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
+}
+
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.api.id
   name        = "$default"
