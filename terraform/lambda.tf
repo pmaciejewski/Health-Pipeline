@@ -59,6 +59,7 @@ resource "aws_lambda_function" "mcp" {
       TABLE_NAME    = aws_dynamodb_table.data.name
       UPLOAD_BUCKET = aws_s3_bucket.uploads.bucket
       AUTH_TOKEN    = random_password.auth_token.result
+      INGEST_TOKEN  = random_password.ingest_token.result
     }
   }
 

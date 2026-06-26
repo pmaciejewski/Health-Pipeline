@@ -8,3 +8,14 @@ resource "random_password" "auth_token" {
   length  = 48
   special = false # path-segment safe
 }
+
+# Write-only token for the direct /ingest endpoint. Kept separate from
+# auth_token so the value stored in the Health Auto Export app (and its iCloud
+# backup) can only PUT transient exports — it grants no read access to health
+# data via /mcp. Sent as the X-Auth-Token request header, not a URL segment, so
+# it never lands in access logs or referrers.
+# Rotate with: terraform apply -replace=random_password.ingest_token
+resource "random_password" "ingest_token" {
+  length  = 48
+  special = false # header-value safe
+}

@@ -1,0 +1,78 @@
+{
+  "_comment": [
+    "CONFIG REFERENCE — not an importable file. Health Auto Export has no",
+    "'import automation from JSON' feature (REST API automations are entered by",
+    "hand and stored only in encrypted iCloud backups). This document mirrors the",
+    "app's automation screen field-by-field so you can transcribe it in ~1 minute.",
+    "Field names match the app UI; see docs/auto-export-direct.md for step-by-step.",
+    "Replace <API_ENDPOINT> and <INGEST_TOKEN> with your deployed values:",
+    "  terraform output -raw ingest_url      # the URL below, ending in /ingest",
+    "  terraform output -raw ingest_token     # the X-Auth-Token value"
+  ],
+  "automationName": "Health Pipeline",
+  "automationType": "REST API",
+  "url": "<API_ENDPOINT>/ingest",
+  "httpMethod": "POST",
+  "httpHeaders": {
+    "X-Auth-Token": "<INGEST_TOKEN>"
+  },
+  "dataType": "Health Metrics",
+  "exportFormat": "JSON",
+  "exportVersion": "Version 1 (legacy)",
+  "summarizeData": true,
+  "batchRequests": false,
+  "dateRange": "Since Last Sync",
+  "syncCadence": { "every": 1, "interval": "day" },
+  "selectHealthMetrics": [
+    "heart_rate_variability",
+    "resting_heart_rate",
+    "heart_rate",
+    "walking_heart_rate_average",
+    "sleep_analysis",
+    "weight_body_mass",
+    "body_fat_percentage",
+    "body_mass_index",
+    "lean_body_mass",
+    "apple_exercise_time",
+    "active_energy",
+    "basal_energy_burned",
+    "apple_stand_hour",
+    "apple_stand_time",
+    "apple_sleeping_wrist_temperature",
+    "blood_oxygen_saturation",
+    "environmental_audio_exposure",
+    "headphone_audio_exposure",
+    "flights_climbed",
+    "physical_effort",
+    "respiratory_rate",
+    "step_count",
+    "time_in_daylight",
+    "vo2_max",
+    "walking_running_distance",
+    "six_minute_walking_test_distance",
+    "stair_speed_up",
+    "stair_speed_down",
+    "walking_asymmetry_percentage",
+    "walking_double_support_percentage",
+    "walking_speed",
+    "walking_step_length"
+  ],
+  "_metricsNote": [
+    "These are the metric identifiers the parser understands (src/parser/",
+    "json-metrics.js). In the app you tick them by display name — e.g.",
+    "'Heart Rate Variability', 'Resting Heart Rate', 'Sleep Analysis'. Any metric",
+    "you add that isn't in this list is uploaded but silently ignored by the",
+    "parser, so it costs nothing to over-select."
+  ],
+  "_payloadShapeExpectedByParser": {
+    "data": {
+      "metrics": [
+        {
+          "name": "heart_rate_variability",
+          "units": "ms",
+          "data": [{ "date": "2026-06-23 00:00:00 +0200", "qty": 48.2 }]
+        }
+      ]
+    }
+  }
+}

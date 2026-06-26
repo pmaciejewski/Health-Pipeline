@@ -5,6 +5,7 @@ import { createMcpHandler } from "./mcp-handler.js";
 import { getHealthData } from "./tools/get-health-data.js";
 import { requestUploadUrl, createUploadUrl } from "./tools/request-upload-url.js";
 import { getSyncStatus } from "./tools/get-sync-status.js";
+import { ingestUpload } from "./ingest.js";
 
 const ctx = {
   ddb: createDocumentClient(),
@@ -30,6 +31,13 @@ function resp(statusCode, body) {
 const NOT_FOUND = resp(404, { message: "Not found" });
 
 export async function handler(event) {
+  // Direct ingest authenticates via header, not a path token, so it is handled
+  // before the path-token gate below.
+  if (event.routeKey === "POST /ingest") {
+    const out = await ingestUpload(event, ctx);
+    return resp(out.status, out.body);
+  }
+
   const token = event.pathParameters?.token;
   if (!tokensMatch(token, getExpectedToken())) return NOT_FOUND;
 
