@@ -28,6 +28,11 @@ function round(v, digits = 0) {
 
 // Plain single-quantity daily metrics: JSON metric name -> output field + rounding.
 // Field names carry units to stay self-describing alongside the XML-derived rows.
+//
+// sum: true marks metrics that accumulate throughout the day (steps, distance,
+// energy burned, exercise time, etc.). When a feed contains multiple points for
+// the same metric on the same day — e.g. one entry per source device — those
+// values are summed rather than the last one silently winning.
 const QTY_METRICS = {
   heart_rate_variability:            { field: "hrv_ms",                     round: 2 },
   resting_heart_rate:                { field: "resting_hr_bpm",             round: 0 },
@@ -35,22 +40,22 @@ const QTY_METRICS = {
   body_fat_percentage:               { field: "body_fat_pct",               round: 2 },
   body_mass_index:                   { field: "bmi",                        round: 2 },
   lean_body_mass:                    { field: "lean_body_mass_kg",          round: 2 },
-  apple_exercise_time:               { field: "exercise_min",               round: 0 },
-  active_energy:                     { field: "active_energy_kj",           round: 2 },
+  apple_exercise_time:               { field: "exercise_min",               round: 0, sum: true },
+  active_energy:                     { field: "active_energy_kj",           round: 2, sum: true },
   basal_energy_burned:               { field: "basal_energy_kj",            round: 2 },
-  apple_stand_hour:                  { field: "stand_hours",                round: 0 },
-  apple_stand_time:                  { field: "stand_min",                  round: 0 },
+  apple_stand_hour:                  { field: "stand_hours",                round: 0, sum: true },
+  apple_stand_time:                  { field: "stand_min",                  round: 0, sum: true },
   apple_sleeping_wrist_temperature:  { field: "sleeping_wrist_temp_c",      round: 2 },
   blood_oxygen_saturation:           { field: "blood_oxygen_pct",           round: 2 },
   environmental_audio_exposure:      { field: "environmental_audio_db",     round: 2 },
   headphone_audio_exposure:          { field: "headphone_audio_db",         round: 2 },
-  flights_climbed:                   { field: "flights_climbed",            round: 0 },
+  flights_climbed:                   { field: "flights_climbed",            round: 0, sum: true },
   physical_effort:                   { field: "physical_effort",            round: 2 },
   respiratory_rate:                  { field: "respiratory_rate_bpm",       round: 2 },
-  step_count:                        { field: "step_count",                 round: 0 },
-  time_in_daylight:                  { field: "time_in_daylight_min",       round: 0 },
+  step_count:                        { field: "step_count",                 round: 0, sum: true },
+  time_in_daylight:                  { field: "time_in_daylight_min",       round: 0, sum: true },
   vo2_max:                           { field: "vo2_max",                    round: 2 },
-  walking_running_distance:          { field: "walking_running_km",         round: 3 },
+  walking_running_distance:          { field: "walking_running_km",         round: 3, sum: true },
   walking_heart_rate_average:        { field: "walking_hr_avg_bpm",         round: 0 },
   six_minute_walking_test_distance:  { field: "six_minute_walk_m",          round: 0 },
   stair_speed_up:                    { field: "stair_speed_up_ms",          round: 3 },
@@ -122,7 +127,9 @@ export class JsonAggregator {
     if (!Number.isFinite(v)) return void this.recordsSkipped++;
     const d = this.#bucket(point);
     if (!d) return;
-    d[spec.field] = round(v, spec.round);
+    d[spec.field] = spec.sum
+      ? round((d[spec.field] ?? 0) + v, spec.round)
+      : round(v, spec.round);
     this.recordsParsed++;
   }
 
@@ -134,8 +141,14 @@ export class JsonAggregator {
       return void this.recordsSkipped++;
     const d = this.#bucket(point);
     if (!d) return;
-    if (Number.isFinite(min)) d.heart_rate_min_bpm = round(min, 0);
-    if (Number.isFinite(max)) d.heart_rate_max_bpm = round(max, 0);
+    if (Number.isFinite(min))
+      d.heart_rate_min_bpm = d.heart_rate_min_bpm == null
+        ? round(min, 0)
+        : Math.min(d.heart_rate_min_bpm, round(min, 0));
+    if (Number.isFinite(max))
+      d.heart_rate_max_bpm = d.heart_rate_max_bpm == null
+        ? round(max, 0)
+        : Math.max(d.heart_rate_max_bpm, round(max, 0));
     if (Number.isFinite(avg)) d.heart_rate_avg_bpm = round(avg, 0);
     this.recordsParsed++;
   }
@@ -145,7 +158,8 @@ export class JsonAggregator {
     if (!d) return;
     for (const [src, field] of Object.entries(SLEEP_FIELDS)) {
       const hours = Number(point?.[src]);
-      if (Number.isFinite(hours)) d[field] = round(hours * 60, 0);
+      if (Number.isFinite(hours))
+        d[field] = round((d[field] ?? 0) + hours * 60, 0);
     }
     d.sleep_sessions = (d.sleep_sessions ?? 0) + 1;
     this.recordsParsed++;

@@ -147,6 +147,88 @@ test("rows are sorted ascending by date", () => {
   );
 });
 
+test("additive metrics sum across multiple same-day entries (e.g. per-source)", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("step_count", [
+      { date: "2026-06-24 00:00:00 +0200", qty: 8200, source: "Paweł's Apple Watch" },
+      { date: "2026-06-24 00:00:00 +0200", qty: 1300, source: "Romuald" },
+    ])
+  );
+  agg.addMetric(
+    metric("walking_running_distance", [
+      { date: "2026-06-24 00:00:00 +0200", qty: 5.8, source: "Paweł's Apple Watch" },
+      { date: "2026-06-24 00:00:00 +0200", qty: 0.9, source: "Romuald" },
+    ])
+  );
+  agg.addMetric(
+    metric("active_energy", [
+      { date: "2026-06-24 00:00:00 +0200", qty: 2100.5, source: "Paweł's Apple Watch" },
+      { date: "2026-06-24 00:00:00 +0200", qty:  410.25, source: "Romuald" },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.step_count, 9500);
+  assert.equal(row.walking_running_km, 6.7);
+  assert.equal(row.active_energy_kj, 2510.75);
+});
+
+test("non-additive metrics use last-write-wins for same-day entries", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("resting_heart_rate", [
+      { date: "2026-06-24 00:00:00 +0200", qty: 65, source: "Paweł's Apple Watch" },
+      { date: "2026-06-24 00:00:00 +0200", qty: 68, source: "Withings" },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.resting_hr_bpm, 68);
+});
+
+test("multiple sleep sessions on the same day accumulate all duration fields", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("sleep_analysis", [
+      {
+        date: "2026-06-24 00:00:00 +0200",
+        totalSleep: 6.5,
+        deep: 1.0,
+        rem: 1.5,
+        core: 4.0,
+        awake: 0.1,
+      },
+      {
+        date: "2026-06-24 00:00:00 +0200",
+        totalSleep: 1.0,
+        deep: 0.0,
+        rem: 0.5,
+        core: 0.5,
+        awake: 0.05,
+      },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.sleep_sessions, 2);
+  assert.equal(row.total_sleep_min, 450);   // (6.5 + 1.0) * 60
+  assert.equal(row.deep_sleep_min, 60);     // (1.0 + 0.0) * 60
+  assert.equal(row.rem_sleep_min, 120);     // (1.5 + 0.5) * 60
+  assert.equal(row.core_sleep_min, 270);    // (4.0 + 0.5) * 60
+  assert.equal(row.awake_min, 9);           // round((0.1 + 0.05) * 60)
+});
+
+test("heart_rate tracks true daily min and max across multiple entries", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("heart_rate", [
+      { date: "2026-06-24 00:00:00 +0200", Min: 58, Max: 130, Avg: 80, source: "Watch" },
+      { date: "2026-06-24 00:00:00 +0200", Min: 62, Max: 175, Avg: 95, source: "Withings" },
+    ])
+  );
+  const [row] = agg.finalize();
+  assert.equal(row.heart_rate_min_bpm, 58);   // true minimum across both entries
+  assert.equal(row.heart_rate_max_bpm, 175);  // true maximum across both entries
+});
+
 test("parseJsonExport rejects a document without data.metrics", () => {
   assert.throws(() => parseJsonExport({}), /missing data\.metrics/);
   assert.throws(() => parseJsonExport({ data: {} }), /missing data\.metrics/);
