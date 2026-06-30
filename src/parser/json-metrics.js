@@ -2,8 +2,10 @@
 //
 // Shape: { "data": { "metrics": [ { name, units, data: [ { date, qty, source, ... } ] } ] } }
 //
-// The feed is already aggregated to a single point per metric per calendar day,
-// so each point maps straight onto a per-day row that the MCP tools serve.
+// Supports both daily-summary exports (one aggregated point per metric per day)
+// and raw backup exports (one point per measurement, sub-daily granularity).
+// Daily aggregates are written to DynamoDB DAY rows; individual measurements are
+// written to RAW#<date> rows so the MCP layer can expose both granularities.
 
 // Health Auto Export timestamps look like "2026-06-11 00:00:00 +0200": the
 // date/time is local, the trailing offset converts it to an absolute epoch.
@@ -24,6 +26,11 @@ function round(v, digits = 0) {
   if (v == null || !Number.isFinite(v)) return null;
   const f = 10 ** digits;
   return Math.round(v * f) / f;
+}
+
+// Zero-pad epoch (ms) to 15 digits so DynamoDB sk sorts chronologically.
+function epochKey(epoch) {
+  return epoch.toString().padStart(15, "0");
 }
 
 // Plain single-quantity daily metrics: JSON metric name -> output field + rounding.
@@ -80,6 +87,7 @@ export class JsonAggregator {
   constructor({ cutoffEpoch = -Infinity } = {}) {
     this.cutoffEpoch = cutoffEpoch;
     this.days = new Map();
+    this.rawPoints = [];
     this.recordsParsed = 0;
     this.recordsSkipped = 0;
   }
@@ -136,6 +144,21 @@ export class JsonAggregator {
       ? round((d[spec.field] ?? 0) + v, spec.round)
       : round(v, spec.round);
     this.recordsParsed++;
+
+    // Raw time-series point: one item per measurement.
+    const t = parseAppleDate(point.date);
+    if (t) {
+      const raw = {
+        pk: `RAW#${t.localDate}`,
+        sk: `${spec.field}#${epochKey(t.epoch)}`,
+        metric: spec.field,
+        ts: point.date,
+        epoch: t.epoch,
+        v: round(v, spec.round),
+      };
+      if (point.source) raw.source = point.source;
+      this.rawPoints.push(raw);
+    }
   }
 
   #addHeartRate(point) {
@@ -156,6 +179,23 @@ export class JsonAggregator {
         : Math.max(d.heart_rate_max_bpm, round(max, 0));
     if (Number.isFinite(avg)) d.heart_rate_avg_bpm = round(avg, 0);
     this.recordsParsed++;
+
+    // Raw time-series point: one item per measurement interval.
+    const t = parseAppleDate(point?.date);
+    if (t) {
+      const raw = {
+        pk: `RAW#${t.localDate}`,
+        sk: `heart_rate#${epochKey(t.epoch)}`,
+        metric: "heart_rate",
+        ts: point.date,
+        epoch: t.epoch,
+      };
+      if (Number.isFinite(min)) raw.min = round(min, 0);
+      if (Number.isFinite(max)) raw.max = round(max, 0);
+      if (Number.isFinite(avg)) raw.avg = round(avg, 0);
+      if (point.source) raw.source = point.source;
+      this.rawPoints.push(raw);
+    }
   }
 
   #addSleep(point) {
@@ -165,7 +205,8 @@ export class JsonAggregator {
     // "2026-06-29 23:49:00 +0200"), which would land the night on Jun 29
     // rather than Jun 30 where Apple Health shows it. sleepEnd is always
     // the actual wake-up timestamp, so it reliably gives the correct day.
-    const d = this.#resolve(point?.sleepEnd ?? point?.date);
+    const sleepEndStr = point?.sleepEnd ?? point?.date;
+    const d = this.#resolve(sleepEndStr);
     if (!d) return;
     for (const [src, field] of Object.entries(SLEEP_FIELDS)) {
       const hours = Number(point?.[src]);
@@ -174,6 +215,25 @@ export class JsonAggregator {
     }
     d.sleep_sessions = (d.sleep_sessions ?? 0) + 1;
     this.recordsParsed++;
+
+    // Raw sleep session point: one item per sleep session.
+    const t = parseAppleDate(sleepEndStr);
+    if (t) {
+      const raw = {
+        pk: `RAW#${t.localDate}`,
+        sk: `sleep_analysis#${epochKey(t.epoch)}`,
+        metric: "sleep_analysis",
+        ts: sleepEndStr,
+        epoch: t.epoch,
+      };
+      if (point.sleepStart != null) raw.sleep_start = point.sleepStart;
+      for (const [src, field] of Object.entries(SLEEP_FIELDS)) {
+        const hours = Number(point?.[src]);
+        if (Number.isFinite(hours)) raw[field] = round(hours * 60, 0);
+      }
+      if (point.source) raw.source = point.source;
+      this.rawPoints.push(raw);
+    }
   }
 
   finalize() {
@@ -183,8 +243,7 @@ export class JsonAggregator {
   }
 }
 
-// Parse a Health Auto Export document into per-day rows.
-// Returns the same envelope as the XML path so callers stay uniform.
+// Parse a Health Auto Export document into per-day rows and raw time-series points.
 export function parseJsonExport(json, { cutoffEpoch = -Infinity } = {}) {
   const metrics = json?.data?.metrics;
   if (!Array.isArray(metrics))
@@ -195,6 +254,7 @@ export function parseJsonExport(json, { cutoffEpoch = -Infinity } = {}) {
 
   return {
     rows: agg.finalize(),
+    rawPoints: agg.rawPoints,
     recordsParsed: agg.recordsParsed,
     recordsSkipped: agg.recordsSkipped,
   };

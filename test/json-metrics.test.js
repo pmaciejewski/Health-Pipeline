@@ -273,6 +273,76 @@ test("heart_rate tracks true daily min and max across multiple entries", () => {
   assert.equal(row.heart_rate_max_bpm, 175);  // true maximum across both entries
 });
 
+test("raw points are collected for qty metrics with timestamp and value", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("step_count", [
+      { date: "2026-06-24 08:15:00 +0200", qty: 500, source: "Watch" },
+      { date: "2026-06-24 09:30:00 +0200", qty: 300, source: "Watch" },
+    ])
+  );
+  assert.equal(agg.rawPoints.length, 2);
+  const [p1, p2] = agg.rawPoints;
+  assert.equal(p1.pk, "RAW#2026-06-24");
+  assert.ok(p1.sk.startsWith("step_count#"));
+  assert.equal(p1.metric, "step_count");
+  assert.equal(p1.v, 500);
+  assert.equal(p1.source, "Watch");
+  assert.equal(typeof p1.epoch, "number");
+  assert.ok(p1.epoch < p2.epoch); // chronological order
+});
+
+test("raw heart_rate points capture min/max/avg per measurement interval", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("heart_rate", [
+      { date: "2026-06-24 09:00:00 +0200", Min: 72, Max: 85, Avg: 78.4, source: "Watch" },
+    ])
+  );
+  const [p] = agg.rawPoints;
+  assert.equal(p.pk, "RAW#2026-06-24");
+  assert.ok(p.sk.startsWith("heart_rate#"));
+  assert.equal(p.metric, "heart_rate");
+  assert.equal(p.min, 72);
+  assert.equal(p.max, 85);
+  assert.equal(p.avg, 78);
+  assert.equal(p.source, "Watch");
+});
+
+test("raw sleep point pk uses sleepEnd date and includes stage durations", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("sleep_analysis", [
+      {
+        date: "2026-06-29 23:49:00 +0200",
+        sleepEnd: "2026-06-30 07:47:00 +0200",
+        sleepStart: "2026-06-29 23:49:00 +0200",
+        totalSleep: 7.967,
+        deep: 1.2,
+        rem: 2.1,
+        core: 4.667,
+        awake: 0.2,
+      },
+    ])
+  );
+  const [p] = agg.rawPoints;
+  assert.equal(p.pk, "RAW#2026-06-30");
+  assert.ok(p.sk.startsWith("sleep_analysis#"));
+  assert.equal(p.metric, "sleep_analysis");
+  assert.equal(p.sleep_start, "2026-06-29 23:49:00 +0200");
+  assert.equal(p.total_sleep_min, 478);
+  assert.equal(p.deep_sleep_min, 72);
+});
+
+test("parseJsonExport envelope includes rawPoints array", () => {
+  const { rawPoints } = parseJsonExport(fixture);
+  assert.ok(Array.isArray(rawPoints));
+  assert.ok(rawPoints.length > 0);
+  assert.ok(rawPoints.every((p) => p.pk?.startsWith("RAW#")));
+  assert.ok(rawPoints.every((p) => typeof p.epoch === "number"));
+  assert.ok(rawPoints.every((p) => p.sk?.includes("#")));
+});
+
 test("parseJsonExport rejects a document without data.metrics", () => {
   assert.throws(() => parseJsonExport({}), /missing data\.metrics/);
   assert.throws(() => parseJsonExport({ data: {} }), /missing data\.metrics/);
