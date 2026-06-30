@@ -49,7 +49,7 @@ const QTY_METRICS = {
   lean_body_mass:                    { field: "lean_body_mass_kg",          round: 2 },
   apple_exercise_time:               { field: "exercise_min",               round: 0, sum: true },
   active_energy:                     { field: "active_energy_kj",           round: 2, sum: true },
-  basal_energy_burned:               { field: "basal_energy_kj",            round: 2 },
+  basal_energy_burned:               { field: "basal_energy_kj",            round: 2, sum: true },
   apple_stand_hour:                  { field: "stand_hours",                round: 0, sum: true },
   apple_stand_time:                  { field: "stand_min",                  round: 0, sum: true },
   apple_sleeping_wrist_temperature:  { field: "sleeping_wrist_temp_c",      round: 2 },
