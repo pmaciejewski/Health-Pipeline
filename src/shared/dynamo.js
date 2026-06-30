@@ -1,7 +1,7 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
-  BatchWriteCommand,
+  UpdateCommand,
   PutCommand,
   GetCommand,
   QueryCommand,
@@ -21,21 +21,48 @@ function stripNulls(obj) {
 
 export async function batchWriteDays(client, table, rows) {
   const updatedAt = new Date().toISOString();
+  // Run up to 25 UpdateItem calls concurrently (matching the old batch size).
+  // UpdateItem is used instead of BatchWrite PutItem so that each upload
+  // only sets the fields present in that export; any fields already stored
+  // from a prior upload are left intact. This prevents a partial daily export
+  // (e.g. activity data only, no sleep) from overwriting metrics that were
+  // written by an earlier upload for the same calendar day.
   for (let i = 0; i < rows.length; i += 25) {
-    let requests = rows.slice(i, i + 25).map((r) => ({
-      PutRequest: {
-        Item: { pk: "DAY", sk: r.date, ...stripNulls(r), updated_at: updatedAt },
-      },
-    }));
-    let attempt = 0;
-    while (requests.length) {
-      const res = await client.send(
-        new BatchWriteCommand({ RequestItems: { [table]: requests } })
+    await Promise.all(
+      rows.slice(i, i + 25).map((r) => upsertDay(client, table, r, updatedAt))
+    );
+  }
+}
+
+async function upsertDay(client, table, row, updatedAt) {
+  const { date, ...rest } = stripNulls(row);
+  const fields = Object.keys(rest);
+  if (!fields.length) return;
+
+  const names = { "#ua": "updated_at" };
+  const values = { ":ua": updatedAt };
+  const setParts = ["#ua = :ua"];
+  fields.forEach((k, i) => {
+    names[`#f${i}`] = k;
+    values[`:v${i}`] = rest[k];
+    setParts.push(`#f${i} = :v${i}`);
+  });
+
+  let attempt = 0;
+  for (;;) {
+    try {
+      await client.send(
+        new UpdateCommand({
+          TableName: table,
+          Key: { pk: "DAY", sk: date },
+          UpdateExpression: `SET ${setParts.join(", ")}`,
+          ExpressionAttributeNames: names,
+          ExpressionAttributeValues: values,
+        })
       );
-      requests = res.UnprocessedItems?.[table] ?? [];
-      if (!requests.length) break;
-      if (++attempt > 5)
-        throw new Error("DynamoDB batch write: unprocessed items after 5 retries");
+      return;
+    } catch (err) {
+      if (++attempt > 5) throw err;
       await new Promise((r) => setTimeout(r, 200 * 2 ** attempt));
     }
   }
