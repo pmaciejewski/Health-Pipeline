@@ -147,6 +147,50 @@ test("rows are sorted ascending by date", () => {
   );
 });
 
+test("sleep attributed to sleepEnd day when session starts before midnight", () => {
+  // Bedtime 23:49 Jun 29, wakeup 07:47 Jun 30: the date field may carry the
+  // bedtime timestamp ("2026-06-29 23:49:00 +0200") but sleepEnd is always the
+  // wakeup timestamp. The session must land on Jun 30 to match Apple Health.
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("sleep_analysis", [
+      {
+        date: "2026-06-29 23:49:00 +0200",
+        sleepEnd: "2026-06-30 07:47:00 +0200",
+        totalSleep: 7.967,
+        deep: 1.2,
+        rem: 2.1,
+        core: 4.667,
+        awake: 0.2,
+      },
+    ])
+  );
+  const rows = agg.finalize();
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].date, "2026-06-30");
+  assert.equal(rows[0].total_sleep_min, 478); // round(7.967 * 60)
+  assert.equal(rows[0].sleep_sessions, 1);
+});
+
+test("sleep falls back to date field when sleepEnd is absent", () => {
+  const agg = new JsonAggregator();
+  agg.addMetric(
+    metric("sleep_analysis", [
+      {
+        date: "2026-06-30 00:00:00 +0200",
+        totalSleep: 7.967,
+        deep: 1.2,
+        rem: 2.1,
+        core: 4.667,
+        awake: 0.2,
+      },
+    ])
+  );
+  const rows = agg.finalize();
+  assert.equal(rows[0].date, "2026-06-30");
+  assert.equal(rows[0].total_sleep_min, 478);
+});
+
 test("additive metrics sum across multiple same-day entries (e.g. per-source)", () => {
   const agg = new JsonAggregator();
   agg.addMetric(

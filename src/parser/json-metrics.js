@@ -93,16 +93,21 @@ export class JsonAggregator {
     return d;
   }
 
-  // Resolve a point's local calendar day, honouring the cutoff window.
-  // Returns the day bucket, or null when the point is unusable/too old.
-  #bucket(point) {
-    const t = parseAppleDate(point?.date);
+  // Resolve a date string → day bucket, honouring the cutoff window.
+  // Returns null (and increments recordsSkipped) when the string won't parse.
+  #resolve(dateStr) {
+    const t = parseAppleDate(dateStr);
     if (!t) {
       this.recordsSkipped++;
       return null;
     }
     if (t.epoch < this.cutoffEpoch) return null;
     return this.#day(t.localDate);
+  }
+
+  // Resolve a point's local calendar day via its `date` field.
+  #bucket(point) {
+    return this.#resolve(point?.date);
   }
 
   addMetric(metric) {
@@ -154,7 +159,13 @@ export class JsonAggregator {
   }
 
   #addSleep(point) {
-    const d = this.#bucket(point);
+    // Attribute the session to the wakeup (morning-of) calendar day by
+    // preferring sleepEnd over the generic date field. Health Auto Export
+    // sometimes stamps date with the bedtime local time (e.g.
+    // "2026-06-29 23:49:00 +0200"), which would land the night on Jun 29
+    // rather than Jun 30 where Apple Health shows it. sleepEnd is always
+    // the actual wake-up timestamp, so it reliably gives the correct day.
+    const d = this.#resolve(point?.sleepEnd ?? point?.date);
     if (!d) return;
     for (const [src, field] of Object.entries(SLEEP_FIELDS)) {
       const hours = Number(point?.[src]);
