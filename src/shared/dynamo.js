@@ -2,6 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
   UpdateCommand,
+  BatchWriteCommand,
   PutCommand,
   GetCommand,
   QueryCommand,
@@ -66,6 +67,52 @@ async function upsertDay(client, table, row, updatedAt) {
       await new Promise((r) => setTimeout(r, 200 * 2 ** attempt));
     }
   }
+}
+
+// Write raw time-series points. Each point is keyed by pk="RAW#<date>" and
+// sk="<metric>#<epoch_padded>", making it immutable — re-uploading the same
+// export writes identical items, so PutItem (full replace) is correct here.
+export async function batchWriteRaw(client, table, rawPoints) {
+  if (!rawPoints.length) return;
+  for (let i = 0; i < rawPoints.length; i += 25) {
+    let pending = rawPoints.slice(i, i + 25).map((item) => ({
+      PutRequest: { Item: item },
+    }));
+    let attempt = 0;
+    while (pending.length) {
+      const res = await client.send(
+        new BatchWriteCommand({ RequestItems: { [table]: pending } })
+      );
+      pending = res.UnprocessedItems?.[table] ?? [];
+      if (pending.length) {
+        if (++attempt > 5) throw new Error("batchWriteRaw: too many retries");
+        await new Promise((r) => setTimeout(r, 200 * 2 ** attempt));
+      }
+    }
+  }
+}
+
+export async function queryRaw(client, table, date, metric) {
+  const pk = `RAW#${date}`;
+  const items = [];
+  let lastKey;
+  do {
+    const res = await client.send(
+      new QueryCommand({
+        TableName: table,
+        KeyConditionExpression: metric
+          ? "pk = :p AND begins_with(sk, :m)"
+          : "pk = :p",
+        ExpressionAttributeValues: metric
+          ? { ":p": pk, ":m": `${metric}#` }
+          : { ":p": pk },
+        ExclusiveStartKey: lastKey,
+      })
+    );
+    items.push(...(res.Items ?? []));
+    lastKey = res.LastEvaluatedKey;
+  } while (lastKey);
+  return items;
 }
 
 export async function writeSyncStatus(client, table, status) {

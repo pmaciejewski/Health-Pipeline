@@ -3,6 +3,7 @@ import { parseJsonExport } from "./json-metrics.js";
 import {
   createDocumentClient,
   batchWriteDays,
+  batchWriteRaw,
   writeSyncStatus,
 } from "../shared/dynamo.js";
 
@@ -31,11 +32,12 @@ async function processObject(bucket, key) {
     WINDOW_DAYS > 0 ? Date.now() - WINDOW_DAYS * 86400000 : -Infinity;
 
   const json = await readJson(Body, key);
-  const { rows, recordsParsed, recordsSkipped } = parseJsonExport(json, {
+  const { rows, rawPoints, recordsParsed, recordsSkipped } = parseJsonExport(json, {
     cutoffEpoch,
   });
 
   if (rows.length) await batchWriteDays(ddb, TABLE, rows);
+  if (rawPoints.length) await batchWriteRaw(ddb, TABLE, rawPoints);
 
   const status = {
     last_sync_at: new Date().toISOString(),
